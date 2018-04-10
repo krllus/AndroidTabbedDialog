@@ -1,8 +1,8 @@
 package com.androidifygeeks.tabdialogs;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,12 +35,10 @@ public class MainActivity extends AppCompatActivity implements ISimpleDialogList
             @Override
             public void onClick(View v) {
                 TabDialogFragment.createBuilder(MainActivity.this, getSupportFragmentManager())
-                        .setTitle("Title")
-                        .setSubTitle("Subtitle")
-                        .setTabButtonText(new CharSequence[]{"Tab1", "Tab2"})
-                        .setPositiveButtonText("Ok")
-                        .setNegativeButtonText("Cancel")
-                        .setNeutralButtonText("Neutral")
+                        .setTitle("Lançamento de Gestação")
+                        .setTabButtonText(new CharSequence[]{"Coleta", "Animal", "Crias"})
+                        .setPositiveButtonText("Lançar")
+                        .setNegativeButtonText("Cancelar")
                         .setRequestCode(REQUEST_TABBED_DIALOG)
                         .show();
             }
@@ -88,11 +86,17 @@ public class MainActivity extends AppCompatActivity implements ISimpleDialogList
 
         switch (selectedTabPosition) {
             case 0:
-                selectedTabPositionZeroCase(rootContainer);
+                selectedFirstTab(rootContainer);
                 break;
+
             case 1:
-                selectedTabPositionOneCase(rootContainer);
+                selectedSecondTab(rootContainer);
                 break;
+
+            case 2:
+                selectedThirdTab(rootContainer);
+                break;
+
             default:
                 break;
         }
@@ -100,20 +104,28 @@ public class MainActivity extends AppCompatActivity implements ISimpleDialogList
 
     }
 
-    private void selectedTabPositionZeroCase(View rootContainer) {
+    private void selectedFirstTab(View rootContainer) {
         // add view in container for first tab
         View tabProductDetailLayout = getLayoutInflater().inflate(R.layout.tab_one_layout, (ViewGroup) rootContainer);
 
-        TextView textView = (TextView) tabProductDetailLayout.findViewById(R.id.text_view);
-        textView.setText("hello: tab1");
+        TextView textView = tabProductDetailLayout.findViewById(R.id.text_view);
+        textView.setText("coleta");
     }
 
-    private void selectedTabPositionOneCase(View rootContainer) {
+    private void selectedSecondTab(View rootContainer) {
         // add view in container for second tab
         View tabProductDetailLayout2 = getLayoutInflater().inflate(R.layout.tab_one_layout, (ViewGroup) rootContainer);
 
-        TextView textView1 = (TextView) tabProductDetailLayout2.findViewById(R.id.text_view);
-        textView1.setText("hello: tab2");
+        TextView textView1 = tabProductDetailLayout2.findViewById(R.id.text_view);
+        textView1.setText("informações");
+    }
+
+    private void selectedThirdTab(View rootContainer) {
+        // add view in container for second tab
+        View tabProductDetailLayout2 = getLayoutInflater().inflate(R.layout.tab_one_layout, (ViewGroup) rootContainer);
+
+        TextView textView1 = tabProductDetailLayout2.findViewById(R.id.text_view);
+        textView1.setText("crias");
     }
 
     @Override

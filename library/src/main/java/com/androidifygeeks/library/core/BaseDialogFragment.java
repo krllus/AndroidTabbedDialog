@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,6 @@ import android.widget.TextView;
 import com.androidifygeeks.library.R;
 import com.androidifygeeks.library.fragment.PageFragment;
 import com.androidifygeeks.library.iface.ISimpleDialogCancelListener;
-import com.androidifygeeks.library.util.MultiSwipeRefreshLayout;
 import com.androidifygeeks.library.util.TypefaceHelper;
 
 import java.util.ArrayList;
@@ -40,13 +38,14 @@ import java.util.List;
  * <p/>
  *
  * @author David Vávra (david@inmite.eu)
- *         <p/>
- *         modified by b_ashish on 21-Mar-16.
+ * <p/>
+ * modified by b_ashish on 21-Mar-16.
+ * modified by joao carlos on 10-Apr-2018
  */
-public abstract class BaseDialogFragment extends DialogFragment implements DialogInterface.OnShowListener, MultiSwipeRefreshLayout.CanChildScrollUpCallback {
+public abstract class BaseDialogFragment
+        extends DialogFragment
+        implements DialogInterface.OnShowListener {
 
-
-    private static final String TAG = BaseDialogFragment.class.getSimpleName();
     protected int mRequestCode;
 
     @NonNull
@@ -60,7 +59,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
                     args.getBoolean(BaseDialogBuilder.ARG_CANCELABLE_ON_TOUCH_OUTSIDE));
         }
         /*
-        * disable the actual title of a dialog cause custom dialog title is rendering through custom layout
+         * disable the actual title of a dialog cause custom dialog title is rendering through custom layout
          */
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setOnShowListener(this);
@@ -68,8 +67,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Builder builder = new Builder(getActivity(), inflater, container);
         return build(builder).create();
     }
@@ -114,22 +112,6 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
 
     @Override
     public void onShow(DialogInterface dialog) {
-        if (getView() != null) {
-//            ScrollView vMessageScrollView = (ScrollView) getView().findViewById(R.id.sdl_message_scrollview);
-//            ListView vListView = (ListView) getView().findViewById(R.id.sdl_list);
-//            FrameLayout vCustomViewNoScrollView = (FrameLayout) getView().findViewById(R.id.sdl_custom);
-//            boolean customViewNoScrollViewScrollable = false;
-//            if (vCustomViewNoScrollView.getChildCount() > 0) {
-//                View firstChild = vCustomViewNoScrollView.getChildAt(0);
-//                if (firstChild instanceof ViewGroup) {
-//                    customViewNoScrollViewScrollable = isScrollable((ViewGroup) firstChild);
-//                }
-//            }
-//            boolean listViewScrollable = isScrollable(vListView);
-//            boolean messageScrollable = isScrollable(vMessageScrollView);
-//            boolean scrollable = listViewScrollable || messageScrollable || customViewNoScrollViewScrollable;
-//            modifyButtonsBasedOnScrollableContent(scrollable);
-        }
     }
 
     @Override
@@ -179,11 +161,6 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
         return listView.getMeasuredHeight() < totalHeight;
     }
 
-    @Override
-    public boolean canSwipeRefreshChildScrollUp() {
-        return false;
-    }
-
 
     /**
      * Custom dialog builder
@@ -218,6 +195,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
 
         private ListAdapter mListAdapter;
 
+        private ViewPager viewPager;
         private TabViewPagerAdapter mTabAdapter;
 
         private CharSequence[] mTabItems;
@@ -352,56 +330,48 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
             return this;
         }
 
-        public View create() {
+        View create() {
 
             final LinearLayout content = (LinearLayout) mInflater.inflate(R.layout.tdl_dialog, mContainer, false);
-            TextView vTitle = (TextView) content.findViewById(R.id.tdl_title_text);
-            TextView vSubTitle = (TextView) content.findViewById(R.id.tdl_subtitle_text);
+            TextView vTitle = content.findViewById(R.id.tdl_title_text);
+            TextView vSubTitle = content.findViewById(R.id.tdl_subtitle_text);
 
-            MultiSwipeRefreshLayout vMultiSwipeRefreshLayout = (MultiSwipeRefreshLayout) content.findViewById(R.id.tdl_swipe_refresh_layout);
-            setContentHeight(vMultiSwipeRefreshLayout);
-            final ViewPager vViewPager = (ViewPager) content.findViewById(R.id.tdl_view_pager);
+            viewPager = content.findViewById(R.id.tdl_view_pager);
+            setContentHeight();
 
-            final TabLayout vTabLayout = (TabLayout) content.findViewById(R.id.tdl_sliding_tabs);
+            final TabLayout vTabLayout = content.findViewById(R.id.tdl_sliding_tabs);
 
-//            TextView vMessage = (TextView) content.findViewById(R.id.tdl_message);
-//            FrameLayout vCustomView = (FrameLayout) content.findViewById(R.id.sdl_custom);
-            Button vPositiveButton = (Button) content.findViewById(R.id.tdl_button_positive);
-            Button vNegativeButton = (Button) content.findViewById(R.id.tdl_button_negative);
-            Button vNeutralButton = (Button) content.findViewById(R.id.tdl_button_neutral);
+            Button vPositiveButton = content.findViewById(R.id.tdl_button_positive);
+            Button vNegativeButton = content.findViewById(R.id.tdl_button_negative);
+            Button vNeutralButton = content.findViewById(R.id.tdl_button_neutral);
 
             Typeface regularFont = TypefaceHelper.get(mContext, "Roboto-Regular");
             Typeface mediumFont = TypefaceHelper.get(mContext, "Roboto-Medium");
 
             set(vTitle, mTitle, mediumFont);
             set(vSubTitle, mSubTitle, mediumFont);
-//            set(vMessage, mMessage, regularFont);
-//            setPaddingOfTitleAndMessage(vTitle, vMessage);
-
-
-            //---- for tab rendering----//
 
             if (mTabAdapter != null) {
-                vViewPager.setAdapter(mTabAdapter);
-                vTabLayout.setTabsFromPagerAdapter(mTabAdapter);
-                vTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                viewPager.setAdapter(mTabAdapter);
+                vTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        vViewPager.setCurrentItem(tab.getPosition(), true);
+                        viewPager.setCurrentItem(tab.getPosition(), true);
                     }
 
                     @Override
                     public void onTabUnselected(TabLayout.Tab tab) {
+
                     }
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        // Do nothing
+
                     }
                 });
-                vViewPager.setPageMargin(mContext.getResources().getDimensionPixelSize(R.dimen.my_tab_view_page_margin));
-                vViewPager.setPageMarginDrawable(R.drawable.page_margin);
-                vViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                viewPager.setPageMargin(mContext.getResources().getDimensionPixelSize(R.dimen.my_tab_view_page_margin));
+                viewPager.setPageMarginDrawable(R.drawable.page_margin);
+                viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                         mViewPagerScrollState = ViewPager.SCROLL_STATE_DRAGGING;
@@ -418,14 +388,16 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
                         mViewPagerScrollState = ViewPager.SCROLL_STATE_IDLE;
                     }
                 });
+                vTabLayout.setupWithViewPager(viewPager);
 
-                for (int i = 0, count = mTabItems.length; i < count; i++) {
-                    vTabLayout.setContentDescription(mTabItems[i]);
+                for (CharSequence mTabItem : mTabItems) {
+                    vTabLayout.setContentDescription(mTabItem);
                 }
                 // help you to select default tab
                 TabLayout.Tab tab = vTabLayout.getTabAt(0);
                 tab.select();
             }
+
 
             //------end here--------//
 
@@ -439,32 +411,14 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
         }
 
         /*
-        * defining the height of a content layout
+         * defining the height of a content layout
          */
-        private void setContentHeight(MultiSwipeRefreshLayout swipeRefreshLayout) {
-            if (swipeRefreshLayout != null) {
-                if (contentHeight <= 0) {
-                    swipeRefreshLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) mContext.getResources().getDimension(R.dimen.dialog_main_pane_height)));
-                } else {
-                    swipeRefreshLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, contentHeight));
-                }
+        private void setContentHeight() {
+            if (contentHeight <= 0) {
+                viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) mContext.getResources().getDimension(R.dimen.dialog_main_pane_height)));
+            } else {
+                viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, contentHeight));
             }
-        }
-
-        /**
-         * Padding is different if there is only title, only message or both.
-         */
-        private void setPaddingOfTitleAndMessage(TextView vTitle, TextView vMessage) {
-//            int grid6 = mContext.getResources().getDimensionPixelSize(R.dimen.grid_6);
-//            int grid4 = mContext.getResources().getDimensionPixelSize(R.dimen.grid_4);
-//            if (!TextUtils.isEmpty(mTitle) && !TextUtils.isEmpty(mMessage)) {
-//                vTitle.setPadding(grid6, grid6, grid6, grid4);
-//                vMessage.setPadding(grid6, 0, grid6, grid4);
-//            } else if (TextUtils.isEmpty(mTitle)) {
-//                vMessage.setPadding(grid6, grid4, grid6, grid4);
-//            } else if (TextUtils.isEmpty(mMessage)) {
-//                vTitle.setPadding(grid6, grid6, grid6, grid4);
-//            }
         }
 
         private boolean shouldStackButtons() {
@@ -513,7 +467,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
         }
 
 
-        public Fragment getCurrentFragment() {
+        Fragment getCurrentFragment() {
             return mCurrentFragment;
         }
 
@@ -527,7 +481,6 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
 
         @Override
         public Fragment getItem(int position) {
-            Log.d(TAG, "Creating fragment #" + position);
             PageFragment frag = new PageFragment();
             Bundle args = new Bundle();
             args.putInt(PageFragment.ARG_DAY_INDEX, position);

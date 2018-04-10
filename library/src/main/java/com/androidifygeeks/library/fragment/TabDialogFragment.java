@@ -116,10 +116,7 @@ public class TabDialogFragment extends BaseDialogFragment {
 
 
     private TabViewPagerAdapter prepareAdapter() {
-
-        TabViewPagerAdapter tabViewPagerAdapter = new TabViewPagerAdapter(getChildFragmentManager(), getTabButtonText());
-        return tabViewPagerAdapter;
-
+        return new TabViewPagerAdapter(getChildFragmentManager(), getTabButtonText());
     }
 
     protected CharSequence getMessage() {

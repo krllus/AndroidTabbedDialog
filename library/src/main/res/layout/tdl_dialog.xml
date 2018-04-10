@@ -7,11 +7,12 @@
     android:orientation="vertical">
 
     <LinearLayout
-        style="@style/HeaderBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
         android:orientation="vertical"
-        android:theme="@style/ActionBarThemeOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
         <include layout="@layout/tdl_dialog_header" />
 
@@ -19,35 +20,18 @@
             android:id="@+id/tdl_sliding_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/tab_background"
             app:tabGravity="center"
-            app:tabIndicatorColor="@color/tab_selected_strip"
+            app:tabIndicatorColor="@color/white"
             app:tabMode="scrollable"
-            app:tabSelectedTextColor="@color/text_on_primary"
-            app:tabTextAppearance="@style/MyDialogTabTextAppearancce" />
+            app:tabSelectedTextColor="@color/white" />
 
     </LinearLayout>
 
-    <LinearLayout
+    <android.support.v4.view.ViewPager
+        android:id="@+id/tdl_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <com.androidifygeeks.library.util.MultiSwipeRefreshLayout
-            android:id="@+id/tdl_swipe_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/tdl_view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.androidifygeeks.library.util.MultiSwipeRefreshLayout>
-
-    </LinearLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <include layout="@layout/horizontal_separator" />
 
@@ -59,68 +43,58 @@
 
         <Button
             android:id="@+id/tdl_button_neutral"
-            android:minWidth="@dimen/card_min_button_width"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/spacing_micro"
-            android:layout_marginStart="@dimen/spacing_micro"
             android:layout_marginEnd="@dimen/spacing_normal"
-            android:layout_marginRight="@dimen/spacing_normal"
-            android:paddingLeft="@dimen/spacing_normal"
-            android:paddingStart="@dimen/spacing_normal"
-            android:paddingRight="@dimen/spacing_normal"
+            android:layout_marginStart="@dimen/spacing_micro"
+            android:fontFamily="@string/font_fontFamily_medium"
+            android:minWidth="@dimen/card_min_button_width"
             android:paddingEnd="@dimen/spacing_normal"
+            android:paddingLeft="@dimen/spacing_normal"
+            android:paddingRight="@dimen/spacing_normal"
+            android:paddingStart="@dimen/spacing_normal"
             android:textAllCaps="true"
             android:textSize="@dimen/text_size_medium"
-            android:fontFamily="@string/font_fontFamily_medium"
-            android:textColor="@color/flat_button_text"
-            tools:text="Neutral"
-            style="?android:borderlessButtonStyle" />
+            tools:text="Neutral" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/tdl_button_negative"
-                android:minWidth="@dimen/card_min_button_width"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/spacing_normal"
-                android:paddingStart="@dimen/spacing_normal"
-                android:paddingRight="@dimen/spacing_normal"
+                android:fontFamily="@string/font_fontFamily_medium"
+                android:minWidth="@dimen/card_min_button_width"
                 android:paddingEnd="@dimen/spacing_normal"
+                android:paddingLeft="@dimen/spacing_normal"
+                android:paddingRight="@dimen/spacing_normal"
+                android:paddingStart="@dimen/spacing_normal"
                 android:textAllCaps="true"
                 android:textSize="@dimen/text_size_medium"
-                android:fontFamily="@string/font_fontFamily_medium"
-                android:textColor="@color/flat_button_text"
-                tools:text="Negative"
-                style="?android:borderlessButtonStyle"/>
+                tools:text="Negative" />
 
             <Button
                 android:id="@+id/tdl_button_positive"
-                android:minWidth="@dimen/card_min_button_width"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing_micro"
-                android:layout_marginStart="@dimen/spacing_micro"
-                android:layout_marginEnd="@dimen/spacing_normal"
-                android:layout_marginRight="@dimen/spacing_normal"
                 android:layout_gravity="end"
-                android:paddingLeft="@dimen/spacing_normal"
-                android:paddingStart="@dimen/spacing_normal"
-                android:paddingRight="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/spacing_micro"
+                android:fontFamily="@string/font_fontFamily_medium"
+                android:minWidth="@dimen/card_min_button_width"
                 android:paddingEnd="@dimen/spacing_normal"
+                android:paddingLeft="@dimen/spacing_normal"
+                android:paddingRight="@dimen/spacing_normal"
+                android:paddingStart="@dimen/spacing_normal"
                 android:textAllCaps="true"
                 android:textSize="@dimen/text_size_medium"
-                android:fontFamily="@string/font_fontFamily_medium"
-                android:textColor="@color/flat_button_text"
-                android:layout_below="@+id/description"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                style="?android:borderlessButtonStyle"
                 tools:text="Positive" />
 
         </LinearLayout>
