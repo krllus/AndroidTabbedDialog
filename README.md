@@ -1,13 +1,11 @@
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AndroidTabbedDialog-green.svg?style=true)](https://android-arsenal.com/details/1/3318)  <a href="https://opensource.org/licenses/Apache-2.0" target="_blank"><img src="https://img.shields.io/badge/License-Apache_v2.0-blue.svg?style=flat"/></a> 
 
-[![](https://jitpack.io/v/ashishbhandari/AndroidTabbedDialog.svg)](https://jitpack.io/#ashishbhandari/AndroidTabbedDialog)
-
+[![](https://jitpack.io/v/krllus/AndroidTabbedDialog.svg)](https://jitpack.io/#krllus/AndroidTabbedDialog)
 
 
 # AndroidTabbedDialog
 
-
-![](https://raw.githubusercontent.com/ashishbhandari/AndroidTabbedDialog/master/screenshots/test.gif)
+![](https://raw.githubusercontent.com/krllus/AndroidTabbedDialog/master/screenshots/test.gif)
 
 ## Setup
 Add jitpack to your project’s repositories.
@@ -23,7 +21,7 @@ Then add Tabbed dialog to your Module’s dependencies
 
 ```
 dependencies {
-	         compile 'com.github.ashishbhandari:AndroidTabbedDialog:v1.1'
+	         compile 'com.github.krllus:AndroidTabbedDialog:v1.2.0'
 	}
 ```
 
