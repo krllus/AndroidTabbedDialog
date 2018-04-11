@@ -1,4 +1,4 @@
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AndroidTabbedDialog-green.svg?style=true)](https://android-arsenal.com/details/1/3318)  <a href="https://opensource.org/licenses/Apache-2.0" target="_blank"><img src="https://img.shields.io/badge/License-Apache_v2.0-blue.svg?style=flat"/></a> 
+<a href="https://opensource.org/licenses/Apache-2.0" target="_blank"><img src="https://img.shields.io/badge/License-Apache_v2.0-blue.svg?style=flat"/></a>
 
 [![](https://jitpack.io/v/krllus/AndroidTabbedDialog.svg)](https://jitpack.io/#krllus/AndroidTabbedDialog)
 
@@ -14,15 +14,15 @@ Add jitpack to your project’s repositories.
 repositories {
         // ...
         maven { url "https://jitpack.io" }
-    }
+}
 ```
 
 Then add Tabbed dialog to your Module’s dependencies
 
 ```
 dependencies {
-	         compile 'com.github.krllus:AndroidTabbedDialog:v1.2.0'
-	}
+        compile 'com.github.krllus:AndroidTabbedDialog:v1.2.0'
+}
 ```
 
 
@@ -30,12 +30,12 @@ dependencies {
 
 ```java
 TabDialogFragment.createBuilder(MainActivity.this, getSupportFragmentManager())
-                        .setTitle("hello")
-                        .setSubTitle("subtitle")
-                        .setTabButtonText(new CharSequence[]{"Tab1", "Tab2"})
-                        .setPositiveButtonText("Love")
-                        .setNegativeButtonText("Hate")
-                        .setNeutralButtonText("WTF?")
+                        .setTitle("Title")
+                        .setSubTitle("SubTitle")
+                        .setTabButtonText(new CharSequence[]{"Tab1", "Tab2", "Tab3"})
+                        .setPositiveButtonText("Ok")
+                        .setNegativeButtonText("Cancel")
+                        .setNeutralButtonText("Hello")
                         .setRequestCode(REQUEST_SIMPLE_DIALOG)
                         .show();
 ```
@@ -77,6 +77,6 @@ Simply implement interface `IFragmentListener` in your Activity/Fragment. Listen
 ```
 
 ## License
-Copyright (c) 2016 Ashish Bhandari
+Copyright (c) 2018 João Carlos
 
 Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)

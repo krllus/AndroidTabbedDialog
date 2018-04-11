@@ -36,10 +36,11 @@ public class MainActivity extends AppCompatActivity implements ISimpleDialogList
             @Override
             public void onClick(View v) {
                 TabDialogFragment.createBuilder(MainActivity.this, getSupportFragmentManager())
-                        .setTitle("Lançamento de Gestação")
-                        .setTabButtonText(new CharSequence[]{"Coleta", "Animal", "Crias"})
-                        .setPositiveButtonText("Lançar")
-                        .setNegativeButtonText("Cancelar")
+                        .setTitle("Title")
+                        .setSubTitle("Subtitle")
+                        .setTabButtonText(new CharSequence[]{"Tab 01", "Tab 02", "Tab 03"})
+                        .setPositiveButtonText("OK")
+                        .setNegativeButtonText("Cancel")
                         .setRequestCode(REQUEST_TABBED_DIALOG)
                         .show();
             }

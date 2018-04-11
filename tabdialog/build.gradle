@@ -1,11 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-
-ext{
-    PUBLISH_GROUP_ID = 'com.github.krllus'
-    PUBLISH_ARTIFACT_ID = 'tabdialog'
-    PUBLISH_VERSION = '1.2.0'
-}
 
 android {
     compileSdkVersion 27
