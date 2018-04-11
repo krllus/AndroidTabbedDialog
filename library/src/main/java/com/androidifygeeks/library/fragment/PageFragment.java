@@ -25,6 +25,16 @@ public class PageFragment extends Fragment {
     public static final String PARENT_TAG = "com.androidifygeeks.library.PARENT_TAG";
 
 
+    public static PageFragment newInstance(int position, String parentTag) {
+        PageFragment frag = new PageFragment();
+        Bundle args = new Bundle();
+        args.putInt(PageFragment.ARG_DAY_INDEX, position);
+        args.putString(PageFragment.PARENT_TAG, parentTag);
+        frag.setArguments(args);
+        return frag;
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRoot = inflater.inflate(R.layout.tdl_fragment_container, container, false);

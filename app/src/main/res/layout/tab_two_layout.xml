@@ -11,19 +11,18 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/text_view"
-            android:layout_width="wrap_content"
+            android:id="@+id/txt_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Small Text"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:layout_margin="8dp"
+            android:text="TextView" />
 
-        <Button
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/txt_message"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:text="botao" />
-
+            android:layout_margin="8dp"
+            android:text="TextView" />
     </LinearLayout>
+
 </ScrollView>

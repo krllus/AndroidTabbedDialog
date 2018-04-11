@@ -16,6 +16,7 @@ import com.androidifygeeks.library.iface.ISimpleDialogCancelListener;
 import com.androidifygeeks.library.iface.ISimpleDialogListener;
 
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements ISimpleDialogListener, ISimpleDialogCancelListener, IFragmentListener {
@@ -106,26 +107,38 @@ public class MainActivity extends AppCompatActivity implements ISimpleDialogList
 
     private void selectedFirstTab(View rootContainer) {
         // add view in container for first tab
-        View tabProductDetailLayout = getLayoutInflater().inflate(R.layout.tab_one_layout, (ViewGroup) rootContainer);
+        View detailRootView = getLayoutInflater().inflate(R.layout.tab_one_layout, (ViewGroup) rootContainer);
 
-        TextView textView = tabProductDetailLayout.findViewById(R.id.text_view);
+        TextView textView = detailRootView.findViewById(R.id.text_view);
         textView.setText("coleta");
     }
 
     private void selectedSecondTab(View rootContainer) {
         // add view in container for second tab
-        View tabProductDetailLayout2 = getLayoutInflater().inflate(R.layout.tab_one_layout, (ViewGroup) rootContainer);
+        View detailRootView = getLayoutInflater().inflate(R.layout.tab_two_layout, (ViewGroup) rootContainer);
 
-        TextView textView1 = tabProductDetailLayout2.findViewById(R.id.text_view);
-        textView1.setText("informações");
+        TextView txtTitle = detailRootView.findViewById(R.id.txt_title);
+        TextView txtMessage = detailRootView.findViewById(R.id.txt_message);
+
+        String message = String.format(Locale.getDefault(), "Message: %s", "mensagem escondida");
+
+        txtTitle.setText(R.string.app_name);
+        txtMessage.setText(message);
+
     }
 
     private void selectedThirdTab(View rootContainer) {
         // add view in container for second tab
-        View tabProductDetailLayout2 = getLayoutInflater().inflate(R.layout.tab_one_layout, (ViewGroup) rootContainer);
+        View detailRootView = getLayoutInflater().inflate(R.layout.tab_tree_layout, (ViewGroup) rootContainer);
 
-        TextView textView1 = tabProductDetailLayout2.findViewById(R.id.text_view);
-        textView1.setText("crias");
+        TextView txtName = detailRootView.findViewById(R.id.txt_name_content);
+        TextView txtSurname = detailRootView.findViewById(R.id.txt_surname_content);
+
+        String name = "João Carlos";
+        String surname = "Marques";
+
+        txtName.setText(name);
+        txtSurname.setText(surname);
     }
 
     @Override
