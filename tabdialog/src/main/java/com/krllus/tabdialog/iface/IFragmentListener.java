@@ -1,15 +1,16 @@
 package com.krllus.tabdialog.iface;
 
-import android.support.v4.app.Fragment;
+import com.krllus.tabdialog.fragment.PageFragment;
+
+import java.io.Serializable;
 
 /**
  * Created by b_ashish on 23-Mar-16.
  */
-public interface IFragmentListener {
+public interface IFragmentListener extends Serializable {
+    void onFragmentViewCreated(PageFragment fragment);
 
-    void onFragmentViewCreated(Fragment fragment);
+    void onFragmentAttached(PageFragment fragment);
 
-    void onFragmentAttached(Fragment fragment);
-
-    void onFragmentDetached(Fragment fragment);
+    void onFragmentDetached(PageFragment fragment);
 }

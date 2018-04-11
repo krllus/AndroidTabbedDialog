@@ -1,5 +1,7 @@
 package com.krllus.tabdialog.iface;
 
+import android.app.Dialog;
+
 /**
  * Implement this interface in Activity or Fragment to react to negative dialog buttons.
  *
@@ -8,5 +10,5 @@ package com.krllus.tabdialog.iface;
  */
 public interface INegativeButtonDialogListener {
 
-    void onNegativeButtonClicked(int requestCode);
+    void onNegativeButtonClicked(int requestCode, Dialog dialog);
 }

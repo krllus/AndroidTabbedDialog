@@ -1,5 +1,7 @@
 package com.krllus.tabdialog.iface;
 
+import android.app.Dialog;
+
 /**
  * Implement this interface in Activity or Fragment to react to positive dialog buttons.
  *
@@ -8,5 +10,5 @@ package com.krllus.tabdialog.iface;
  */
 public interface IPositiveButtonDialogListener {
 
-    void onPositiveButtonClicked(int requestCode);
+    void onPositiveButtonClicked(int requestCode, Dialog dialog);
 }

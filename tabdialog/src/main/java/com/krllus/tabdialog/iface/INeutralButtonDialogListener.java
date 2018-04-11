@@ -1,5 +1,7 @@
 package com.krllus.tabdialog.iface;
 
+import android.app.Dialog;
+
 /**
  * Implement this interface in Activity or Fragment to react to neutral dialog buttons.
  *
@@ -8,5 +10,5 @@ package com.krllus.tabdialog.iface;
  */
 public interface INeutralButtonDialogListener {
 
-    void onNeutralButtonClicked(int requestCode);
+    void onNeutralButtonClicked(int requestCode, Dialog dialog);
 }

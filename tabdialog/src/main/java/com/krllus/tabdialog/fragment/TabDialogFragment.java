@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.krllus.tabdialog.core.BaseDialogBuilder;
 import com.krllus.tabdialog.core.BaseDialogFragment;
+import com.krllus.tabdialog.iface.IFragmentListener;
 import com.krllus.tabdialog.iface.INegativeButtonDialogListener;
 import com.krllus.tabdialog.iface.INeutralButtonDialogListener;
 import com.krllus.tabdialog.iface.IPositiveButtonDialogListener;
@@ -27,8 +28,8 @@ public class TabDialogFragment extends BaseDialogFragment {
     protected final static String ARG_POSITIVE_BUTTON = "positive_button";
     protected final static String ARG_NEGATIVE_BUTTON = "negative_button";
     protected final static String ARG_NEUTRAL_BUTTON = "neutral_button";
-
     protected final static String ARG_TAB_BUTTON = "tab_button";
+    protected final static String ARG_FRAGMENT_LISTENER = "fragment_listener";
 
 
     public static TabDialogBuilder createBuilder(Context context, FragmentManager fragmentManager) {
@@ -67,9 +68,8 @@ public class TabDialogFragment extends BaseDialogFragment {
                 @Override
                 public void onClick(View view) {
                     for (IPositiveButtonDialogListener listener : getPositiveButtonDialogListeners()) {
-                        listener.onPositiveButtonClicked(mRequestCode);
+                        listener.onPositiveButtonClicked(mRequestCode, getDialog());
                     }
-                    dismiss();
                 }
             });
         }
@@ -80,9 +80,8 @@ public class TabDialogFragment extends BaseDialogFragment {
                 @Override
                 public void onClick(View view) {
                     for (INegativeButtonDialogListener listener : getNegativeButtonDialogListeners()) {
-                        listener.onNegativeButtonClicked(mRequestCode);
+                        listener.onNegativeButtonClicked(mRequestCode, getDialog());
                     }
-                    dismiss();
                 }
             });
         }
@@ -93,9 +92,8 @@ public class TabDialogFragment extends BaseDialogFragment {
                 @Override
                 public void onClick(View view) {
                     for (INeutralButtonDialogListener listener : getNeutralButtonDialogListeners()) {
-                        listener.onNeutralButtonClicked(mRequestCode);
+                        listener.onNeutralButtonClicked(mRequestCode, getDialog());
                     }
-                    dismiss();
                 }
             });
         }
@@ -109,14 +107,11 @@ public class TabDialogFragment extends BaseDialogFragment {
     }
 
     private void buildTab(final Builder builder) {
-
-        builder.setTabItems(
-                prepareAdapter(), getTabButtonText());
+        builder.setTabItems(prepareAdapter(), getTabButtonText());
     }
 
-
     private TabViewPagerAdapter prepareAdapter() {
-        return new TabViewPagerAdapter(getChildFragmentManager(), getTabButtonText());
+        return new TabViewPagerAdapter(getChildFragmentManager(), getTabButtonText(), getFragmentListener(), mRequestCode);
     }
 
     protected CharSequence getMessage() {
@@ -145,6 +140,10 @@ public class TabDialogFragment extends BaseDialogFragment {
 
     protected CharSequence[] getTabButtonText() {
         return getArguments().getCharSequenceArray(ARG_TAB_BUTTON);
+    }
+
+    protected IFragmentListener getFragmentListener() {
+        return (IFragmentListener) getArguments().getSerializable(ARG_FRAGMENT_LISTENER);
     }
 
 
@@ -193,8 +192,10 @@ public class TabDialogFragment extends BaseDialogFragment {
 
         private CharSequence[] mTabButtonText;
 
+        private IFragmentListener mListener;
 
-        public TabDialogBuilder(Context context, FragmentManager fragmentManager, Class<? extends BaseDialogFragment> clazz) {
+
+        TabDialogBuilder(Context context, FragmentManager fragmentManager, Class<? extends BaseDialogFragment> clazz) {
             super(context, fragmentManager, clazz);
         }
 
@@ -278,6 +279,11 @@ public class TabDialogFragment extends BaseDialogFragment {
             return this;
         }
 
+        public TabDialogBuilder setFragmentListener(IFragmentListener listener) {
+            mListener = listener;
+            return this;
+        }
+
         @Override
         protected Bundle prepareArguments() {
             Bundle args = new Bundle();
@@ -289,6 +295,8 @@ public class TabDialogFragment extends BaseDialogFragment {
             args.putCharSequence(TabDialogFragment.ARG_NEUTRAL_BUTTON, mNeutralButtonText);
 
             args.putCharSequenceArray(TabDialogFragment.ARG_TAB_BUTTON, mTabButtonText);
+
+            args.putSerializable(TabDialogFragment.ARG_FRAGMENT_LISTENER, mListener);
 
             return args;
         }

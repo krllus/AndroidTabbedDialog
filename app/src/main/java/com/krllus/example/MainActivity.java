@@ -1,7 +1,9 @@
 package com.krllus.example;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +21,9 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity implements ISimpleDialogListener, ISimpleDialogCancelListener, IFragmentListener {
+public class MainActivity
+        extends AppCompatActivity
+        implements ISimpleDialogListener, ISimpleDialogCancelListener, IFragmentListener {
 
     private static final int REQUEST_TABBED_DIALOG = 42;
 
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements ISimpleDialogList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         findViewById(R.id.testbutton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +50,15 @@ public class MainActivity extends AppCompatActivity implements ISimpleDialogList
                         .show();
             }
         });
+
+
+        MainFragment fragment = MainFragment.newInstance();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
     }
 
 
@@ -60,50 +74,61 @@ public class MainActivity extends AppCompatActivity implements ISimpleDialogList
     }
 
     @Override
-    public void onNegativeButtonClicked(int requestCode) {
-        if (requestCode == REQUEST_TABBED_DIALOG) {
-            Toast.makeText(MainActivity.this, "Negative button clicked", Toast.LENGTH_SHORT).show();
+    public void onNegativeButtonClicked(int requestCode, Dialog dialog) {
+        switch (requestCode) {
+            case REQUEST_TABBED_DIALOG:
+                Toast.makeText(MainActivity.this, "Activity Negative Clicked", Toast.LENGTH_SHORT).show();
+                if (dialog != null && dialog.isShowing())
+                    dialog.dismiss();
+                break;
         }
     }
 
     @Override
-    public void onNeutralButtonClicked(int requestCode) {
-        if (requestCode == REQUEST_TABBED_DIALOG) {
-            Toast.makeText(MainActivity.this, "Neutral button clicked", Toast.LENGTH_SHORT).show();
+    public void onNeutralButtonClicked(int requestCode, Dialog dialog) {
+        switch (requestCode) {
+            case REQUEST_TABBED_DIALOG:
+                Toast.makeText(MainActivity.this, "Activity Neutral Clicked", Toast.LENGTH_SHORT).show();
+                if (dialog != null && dialog.isShowing())
+                    dialog.dismiss();
+                break;
         }
     }
 
     @Override
-    public void onPositiveButtonClicked(int requestCode) {
-        if (requestCode == REQUEST_TABBED_DIALOG) {
-            Toast.makeText(MainActivity.this, "Positive button clicked", Toast.LENGTH_SHORT).show();
+    public void onPositiveButtonClicked(int requestCode, Dialog dialog) {
+        switch (requestCode) {
+            case REQUEST_TABBED_DIALOG:
+                Toast.makeText(MainActivity.this, "Activity Positive Clicked", Toast.LENGTH_SHORT).show();
+                if (dialog != null && dialog.isShowing())
+                    dialog.dismiss();
+                break;
         }
     }
 
+
     @Override
-    public void onFragmentViewCreated(Fragment fragment) {
-        int selectedTabPosition = fragment.getArguments().getInt(PageFragment.ARG_DAY_INDEX, 0);
-        View rootContainer = fragment.getView().findViewById(R.id.root_container);
+    public void onFragmentViewCreated(PageFragment fragment) {
+        int selectedTabPosition = fragment.getArguments().getInt(PageFragment.TAB_POSITION, 0);
+        View container = fragment.getContentContainer();
         Log.i(TAG, "Position: " + selectedTabPosition);
 
         switch (selectedTabPosition) {
             case 0:
-                selectedFirstTab(rootContainer);
+                selectedFirstTab(container);
                 break;
 
             case 1:
-                selectedSecondTab(rootContainer);
+                selectedSecondTab(container);
                 break;
 
             case 2:
-                selectedThirdTab(rootContainer);
+                selectedThirdTab(container);
                 break;
 
             default:
                 break;
         }
-
-
     }
 
     private void selectedFirstTab(View rootContainer) {
@@ -143,12 +168,12 @@ public class MainActivity extends AppCompatActivity implements ISimpleDialogList
     }
 
     @Override
-    public void onFragmentAttached(Fragment fragment) {
+    public void onFragmentAttached(PageFragment fragment) {
         mMyScheduleFragments.add(fragment);
     }
 
     @Override
-    public void onFragmentDetached(Fragment fragment) {
+    public void onFragmentDetached(PageFragment fragment) {
         mMyScheduleFragments.remove(fragment);
     }
 }

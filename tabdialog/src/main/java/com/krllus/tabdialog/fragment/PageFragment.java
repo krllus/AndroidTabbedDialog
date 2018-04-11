@@ -1,8 +1,9 @@
 package com.krllus.tabdialog.fragment;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,83 +12,69 @@ import android.view.ViewGroup;
 import com.krllus.tabdialog.R;
 import com.krllus.tabdialog.iface.IFragmentListener;
 
-/**
- * Created by b_ashish on 17-Mar-16.
- * <p/>
- * this class can be invoke from activity or either from fragment
- */
 public class PageFragment extends Fragment {
 
-    public static final String ARG_DAY_INDEX = "com.androidifygeeks.library.ARG_DAY_INDEX";
-    public static final String PARENT_TAG = "com.androidifygeeks.library.PARENT_TAG";
-    private String mContentDescription = null;
-    private View mRoot = null;
+    public static final String TAB_POSITION = "tab_position";
+    public static final String REQUEST_CODE = "request_code";
 
-    public static PageFragment newInstance(int position, String parentTag) {
+    private IFragmentListener listener;
+    private View contentContainer;
+
+    public static PageFragment newInstance(int position, int requestCode) {
         PageFragment frag = new PageFragment();
         Bundle args = new Bundle();
-        args.putInt(PageFragment.ARG_DAY_INDEX, position);
-        args.putString(PageFragment.PARENT_TAG, parentTag);
+        args.putInt(PageFragment.TAB_POSITION, position);
+        args.putInt(PageFragment.REQUEST_CODE, requestCode);
         frag.setArguments(args);
         return frag;
     }
 
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRoot = inflater.inflate(R.layout.tdl_fragment_container, container, false);
-        if (mContentDescription != null) {
-            mRoot.setContentDescription(mContentDescription);
-        }
-        return mRoot;
+    public void setListener(IFragmentListener listener) {
+        this.listener = listener;
     }
 
-    public void setContentDescription(String desc) {
-        mContentDescription = desc;
-        if (mRoot != null) {
-            mRoot.setContentDescription(mContentDescription);
-        }
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.tdl_fragment_container, container, false);
+        contentContainer = rootView.findViewById(R.id.root_container);
+        return rootView;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (listener != null) {
+            listener.onFragmentViewCreated(this);
+            return;
+        }
 
         if (getActivity() instanceof IFragmentListener) {
             ((IFragmentListener) getActivity()).onFragmentViewCreated(this);
         } else {
             Fragment parentFragment;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                parentFragment = getParentFragment();
-            } else {
-                // Collect the tag from the arguments
-                String tag = getArguments().getString(PARENT_TAG);
-                // Use the tag to get the parentFragment from the activity, which is (conveniently) available in onAttach()
-                parentFragment = getActivity().getSupportFragmentManager().findFragmentByTag(tag);
-            }
+            parentFragment = getParentFragment();
 
             if (parentFragment instanceof IFragmentListener) {
                 ((IFragmentListener) parentFragment).onFragmentViewCreated(this);
             }
         }
-
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (listener != null) {
+            listener.onFragmentAttached(this);
+            return;
+        }
+
         if (getActivity() instanceof IFragmentListener) {
             ((IFragmentListener) getActivity()).onFragmentAttached(this);
         } else {
             Fragment parentFragment;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                parentFragment = getParentFragment();
-            } else {
-                // Collect the tag from the arguments
-                String tag = getArguments().getString(PARENT_TAG);
-                // Use the tag to get the parentFragment from the activity, which is (conveniently) available in onAttach()
-                parentFragment = getActivity().getSupportFragmentManager().findFragmentByTag(tag);
-            }
+            parentFragment = getParentFragment();
 
             if (parentFragment instanceof IFragmentListener) {
                 ((IFragmentListener) parentFragment).onFragmentAttached(this);
@@ -98,18 +85,16 @@ public class PageFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        if (listener != null) {
+            listener.onFragmentDetached(this);
+            return;
+        }
+
         if (getActivity() instanceof IFragmentListener) {
             ((IFragmentListener) getActivity()).onFragmentDetached(this);
         } else {
             Fragment parentFragment;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                parentFragment = getParentFragment();
-            } else {
-                // Collect the tag from the arguments
-                String tag = getArguments().getString(PARENT_TAG);
-                // Use the tag to get the parentFragment from the activity, which is (conveniently) available in onAttach()
-                parentFragment = getActivity().getSupportFragmentManager().findFragmentByTag(tag);
-            }
+            parentFragment = getParentFragment();
 
             if (parentFragment instanceof IFragmentListener) {
                 ((IFragmentListener) parentFragment).onFragmentDetached(this);
@@ -117,4 +102,17 @@ public class PageFragment extends Fragment {
         }
     }
 
+    public int getPagePosition() {
+        if (getArguments() == null) return -1;
+        return getArguments().getInt(PageFragment.TAB_POSITION, -1);
+    }
+
+    public int getRequestCode() {
+        if (getArguments() == null) return -1;
+        return getArguments().getInt(PageFragment.REQUEST_CODE, -1);
+    }
+
+    public View getContentContainer() {
+        return contentContainer;
+    }
 }

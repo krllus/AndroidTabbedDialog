@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.krllus.tabdialog.R;
 import com.krllus.tabdialog.custom.WrapContentHeightViewPager;
 import com.krllus.tabdialog.fragment.PageFragment;
+import com.krllus.tabdialog.iface.IFragmentListener;
 import com.krllus.tabdialog.iface.ISimpleDialogCancelListener;
 import com.krllus.tabdialog.util.TypefaceHelper;
 
@@ -68,7 +69,7 @@ public abstract class BaseDialogFragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Builder builder = new Builder(getActivity(), inflater, container);
         return build(builder).create();
     }
@@ -446,15 +447,17 @@ public abstract class BaseDialogFragment
         }
     }
 
-    public class TabViewPagerAdapter
-            extends FragmentPagerAdapter {
-
-        private final CharSequence[] tabItems;
+    public class TabViewPagerAdapter extends FragmentPagerAdapter {
+        private final CharSequence[] titles;
+        private IFragmentListener listener;
         private Fragment mCurrentFragment;
+        private int requestCode;
 
-        public TabViewPagerAdapter(FragmentManager fm, CharSequence[] tabItems) {
+        public TabViewPagerAdapter(FragmentManager fm, CharSequence[] titles, IFragmentListener listener, int requestCode) {
             super(fm);
-            this.tabItems = tabItems;
+            this.listener = listener;
+            this.titles = titles;
+            this.requestCode = requestCode;
         }
 
         Fragment getCurrentFragment() {
@@ -471,17 +474,19 @@ public abstract class BaseDialogFragment
 
         @Override
         public Fragment getItem(int position) {
-            return PageFragment.newInstance(position, getTag());
+            PageFragment fragment = PageFragment.newInstance(position, requestCode);
+            fragment.setListener(listener);
+            return fragment;
         }
 
         @Override
         public int getCount() {
-            return tabItems.length;
+            return titles.length;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return tabItems[position];
+            return titles[position];
         }
     }
 }
