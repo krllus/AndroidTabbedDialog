@@ -1,54 +1,54 @@
 package com.krllus.tabdialog.fragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.krllus.tabdialog.R;
 import com.krllus.tabdialog.iface.IFragmentListener;
+import com.krllus.tabdialog.iface.ISimpleDialogListener;
 
-public class PageFragment extends Fragment {
+import java.util.Locale;
+import java.util.Random;
 
-    public static final String TAB_POSITION = "tab_position";
-    public static final String REQUEST_CODE = "request_code";
+public class PageFragment
+        extends Fragment
+        implements ISimpleDialogListener {
 
-    private IFragmentListener listener;
-    private View contentContainer;
-
-    public static PageFragment newInstance(int position, int requestCode) {
-        PageFragment frag = new PageFragment();
-        Bundle args = new Bundle();
-        args.putInt(PageFragment.TAB_POSITION, position);
-        args.putInt(PageFragment.REQUEST_CODE, requestCode);
-        frag.setArguments(args);
-        return frag;
-    }
-
-    public void setListener(IFragmentListener listener) {
-        this.listener = listener;
+    public static PageFragment newInstance() {
+        return new PageFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tdl_fragment_container, container, false);
-        contentContainer = rootView.findViewById(R.id.root_container);
+
+        ViewGroup group = (ViewGroup) rootView;
+
+        TextView txtView = new TextView(rootView.getContext());
+
+        Random random = new Random();
+        int rNum = random.nextInt(100) + 1;
+        String txt = String.format(Locale.getDefault(), "Your luck number: %d", rNum);
+        txtView.setText(txt);
+
+        group.addView(txtView);
+
         return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        if (listener != null) {
-            listener.onFragmentViewCreated(this);
-            return;
-        }
 
         if (getActivity() instanceof IFragmentListener) {
             ((IFragmentListener) getActivity()).onFragmentViewCreated(this);
@@ -65,11 +65,6 @@ public class PageFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (listener != null) {
-            listener.onFragmentAttached(this);
-            return;
-        }
-
         if (getActivity() instanceof IFragmentListener) {
             ((IFragmentListener) getActivity()).onFragmentAttached(this);
         } else {
@@ -85,11 +80,6 @@ public class PageFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        if (listener != null) {
-            listener.onFragmentDetached(this);
-            return;
-        }
-
         if (getActivity() instanceof IFragmentListener) {
             ((IFragmentListener) getActivity()).onFragmentDetached(this);
         } else {
@@ -102,17 +92,18 @@ public class PageFragment extends Fragment {
         }
     }
 
-    public int getPagePosition() {
-        if (getArguments() == null) return -1;
-        return getArguments().getInt(PageFragment.TAB_POSITION, -1);
+    @Override
+    public void onNegativeButtonClicked(int requestCode, Dialog dialog) {
+        Log.d("PageFragment", "Negative R Code: " + requestCode);
     }
 
-    public int getRequestCode() {
-        if (getArguments() == null) return -1;
-        return getArguments().getInt(PageFragment.REQUEST_CODE, -1);
+    @Override
+    public void onNeutralButtonClicked(int requestCode, Dialog dialog) {
+        Log.d("PageFragment", "Neutral R Code: " + requestCode);
     }
 
-    public View getContentContainer() {
-        return contentContainer;
+    @Override
+    public void onPositiveButtonClicked(int requestCode, Dialog dialog) {
+        Log.d("PageFragment", "Positive R Code: " + requestCode);
     }
 }

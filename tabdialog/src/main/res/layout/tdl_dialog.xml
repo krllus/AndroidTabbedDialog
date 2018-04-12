@@ -17,7 +17,7 @@
         <include layout="@layout/tdl_dialog_header" />
 
         <android.support.design.widget.TabLayout
-            android:id="@+id/tdl_sliding_tabs"
+            android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabGravity="center"
@@ -28,10 +28,11 @@
     </LinearLayout>
 
     <com.krllus.tabdialog.custom.WrapContentHeightViewPager
-        android:id="@+id/tdl_view_pager"
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:clipToPadding="false" />
 
     <include layout="@layout/horizontal_separator" />
 
@@ -46,14 +47,14 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_normal"
-            android:layout_marginStart="@dimen/spacing_micro"
+            android:layout_marginEnd="@dimen/md_separator"
+            android:layout_marginStart="@dimen/md_micro"
             android:fontFamily="@string/font_fontFamily_medium"
             android:minWidth="@dimen/card_min_button_width"
-            android:paddingEnd="@dimen/spacing_normal"
-            android:paddingLeft="@dimen/spacing_normal"
-            android:paddingRight="@dimen/spacing_normal"
-            android:paddingStart="@dimen/spacing_normal"
+            android:paddingEnd="@dimen/md_separator"
+            android:paddingLeft="@dimen/md_separator"
+            android:paddingRight="@dimen/md_separator"
+            android:paddingStart="@dimen/md_separator"
             android:textAllCaps="true"
             android:textSize="@dimen/text_size_medium"
             tools:text="Neutral" />
@@ -71,10 +72,10 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@string/font_fontFamily_medium"
                 android:minWidth="@dimen/card_min_button_width"
-                android:paddingEnd="@dimen/spacing_normal"
-                android:paddingLeft="@dimen/spacing_normal"
-                android:paddingRight="@dimen/spacing_normal"
-                android:paddingStart="@dimen/spacing_normal"
+                android:paddingEnd="@dimen/md_separator"
+                android:paddingLeft="@dimen/md_separator"
+                android:paddingRight="@dimen/md_separator"
+                android:paddingStart="@dimen/md_separator"
                 android:textAllCaps="true"
                 android:textSize="@dimen/text_size_medium"
                 tools:text="Negative" />
@@ -85,14 +86,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/spacing_normal"
-                android:layout_marginStart="@dimen/spacing_micro"
+                android:layout_marginEnd="@dimen/md_separator"
+                android:layout_marginStart="@dimen/md_micro"
                 android:fontFamily="@string/font_fontFamily_medium"
                 android:minWidth="@dimen/card_min_button_width"
-                android:paddingEnd="@dimen/spacing_normal"
-                android:paddingLeft="@dimen/spacing_normal"
-                android:paddingRight="@dimen/spacing_normal"
-                android:paddingStart="@dimen/spacing_normal"
+                android:paddingEnd="@dimen/md_separator"
+                android:paddingLeft="@dimen/md_separator"
+                android:paddingRight="@dimen/md_separator"
+                android:paddingStart="@dimen/md_separator"
                 android:textAllCaps="true"
                 android:textSize="@dimen/text_size_medium"
                 tools:text="Positive" />

@@ -14,23 +14,15 @@
   limitations under the License.
   -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <color android:color="#ddd" />
-    </item>
-    <item android:right="12dp">
+
+    <item android:right="4dp">
         <shape android:shape="rectangle">
-            <gradient
-                android:angle="0"
-                android:endColor="#ddd"
-                android:startColor="#ccc" />
+            <solid android:color="#ddd" />
         </shape>
     </item>
-    <item android:left="12dp">
+    <item android:left="4dp">
         <shape android:shape="rectangle">
-            <gradient
-                android:angle="180"
-                android:endColor="#ddd"
-                android:startColor="#ccc" />
+            <solid android:color="#ddd" />
         </shape>
     </item>
 </layer-list>

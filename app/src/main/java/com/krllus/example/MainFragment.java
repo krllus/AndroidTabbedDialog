@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,11 @@ import android.widget.Toast;
 
 import com.krllus.tabdialog.fragment.PageFragment;
 import com.krllus.tabdialog.fragment.TabDialogFragment;
-import com.krllus.tabdialog.iface.IFragmentListener;
 import com.krllus.tabdialog.iface.ISimpleDialogListener;
+import com.krllus.tabdialog.iface.ViewPagerAdapterInterface;
+import com.krllus.tabdialog.model.DialogTabItem;
+
+import java.util.ArrayList;
 
 
 /**
@@ -25,10 +27,9 @@ import com.krllus.tabdialog.iface.ISimpleDialogListener;
  */
 public class MainFragment
         extends Fragment
-        implements IFragmentListener, ISimpleDialogListener {
+        implements ISimpleDialogListener {
 
-    private static final int REQUEST_CODE_FRAGMENT = 1;
-    private static final String TAG = MainFragment.class.getSimpleName();
+    private static final int REQUEST_CODE_FRAGMENT = 50;
 
     public MainFragment() {
         // Required empty public constructor
@@ -62,50 +63,73 @@ public class MainFragment
         return rootView;
     }
 
-
     private void launchDialog() {
         TabDialogFragment.createBuilder(getContext(), getFragmentManager())
-                .setTitle("title")
-                .setSubTitle("subtitle")
-                .setTabButtonText(new CharSequence[]{"tab1", "tab2"})
+                .setTitle("Fragment Title")
+                .setSubTitle("Using fragments is really cool")
+                .setListener(new ViewPagerAdapterInterface() {
+                    @Override
+                    public CharSequence getTitle(int position) {
+                        return null;
+                    }
+
+                    @Override
+                    public Fragment getItem(int position) {
+                        return null;
+                    }
+
+                    @Override
+                    public int getCount() {
+                        return 0;
+                    }
+                })
                 .setPositiveButtonText("OK")
                 .setNegativeButtonText("Cancel")
-                .setFragmentListener(MainFragment.this)
                 .setTargetFragment(this, REQUEST_CODE_FRAGMENT)
                 .setRequestCode(REQUEST_CODE_FRAGMENT)
                 .show();
     }
 
-    @Override
-    public void onFragmentViewCreated(PageFragment fragment) {
-        int selectedTabPosition = fragment.getPagePosition();
-        View container = fragment.getContentContainer();
-        Log.i(TAG, "Position: " + selectedTabPosition);
-
-        switch (selectedTabPosition) {
-            case 0:
-                selectedFirstTab(container);
-                break;
-        }
-
+    private ArrayList<DialogTabItem> buildTabItens() {
+        ArrayList<DialogTabItem> itens = new ArrayList<>();
+        itens.add(new DialogTabItem(PageFragment.newInstance(), "Uno"));
+        itens.add(new DialogTabItem(PageFragment.newInstance(), "Dos"));
+        itens.add(new DialogTabItem(PageFragment.newInstance(), "Cuatro"));
+        return itens;
     }
+
 
     private void selectedFirstTab(View container) {
         // add view in container for first tab
         View detailRootView = getLayoutInflater().inflate(R.layout.tab_one_layout, (ViewGroup) container);
 
-        TextView textView = detailRootView.findViewById(R.id.text_view);
-        textView.setText("coleta");
+        TextView txtFirst = detailRootView.findViewById(R.id.textView);
+        TextView txtSecond = detailRootView.findViewById(R.id.textView2);
+        TextView txtThird = detailRootView.findViewById(R.id.textView3);
+
+        String strOne = "First Sentence";
+        String strTwo = "Seconde Line";
+        String strThird = "Last Sentence";
+
+        txtFirst.setText(strOne);
+        txtSecond.setText(strTwo);
+        txtThird.setText(strThird);
     }
 
-    @Override
-    public void onFragmentAttached(PageFragment fragment) {
+    private void selectedSecondTab(View container) {
+        // add view in container for first tab
+        View detailRootView = getLayoutInflater().inflate(R.layout.tab_simple_text, (ViewGroup) container);
+        TextView textView = detailRootView.findViewById(R.id.textView);
 
+        textView.setText(R.string.lorem);
     }
 
-    @Override
-    public void onFragmentDetached(PageFragment fragment) {
-
+    private void selectedThirdTab(View container) {
+        // add view in container for first tab
+        View detailRootView = getLayoutInflater().inflate(R.layout.tab_simple_text, (ViewGroup) container);
+        TextView textView = detailRootView.findViewById(R.id.textView);
+        String third = "shh!! we don't speak about 3!";
+        textView.setText(third);
     }
 
     @Override

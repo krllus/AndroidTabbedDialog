@@ -10,9 +10,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +24,6 @@ import android.widget.TextView;
 
 import com.krllus.tabdialog.R;
 import com.krllus.tabdialog.custom.WrapContentHeightViewPager;
-import com.krllus.tabdialog.fragment.PageFragment;
-import com.krllus.tabdialog.iface.IFragmentListener;
 import com.krllus.tabdialog.iface.ISimpleDialogCancelListener;
 import com.krllus.tabdialog.util.TypefaceHelper;
 
@@ -35,18 +31,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Base dialog fragment for all your dialogs, styleable and same design on Android 2.2+.
- * <p/>
- *
- * @author David Vávra (david@inmite.eu)
- * <p/>
- * modified by b_ashish on 21-Mar-16.
- * modified by joao carlos on 10-Apr-2018
- */
 public abstract class BaseDialogFragment
-        extends DialogFragment
-        implements DialogInterface.OnShowListener {
+        extends DialogFragment {
 
     protected int mRequestCode;
 
@@ -63,8 +49,7 @@ public abstract class BaseDialogFragment
         /*
          * disable the actual title of a dialog cause custom dialog title is rendering through custom layout
          */
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        dialog.setOnShowListener(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         return dialog;
     }
 
@@ -88,15 +73,6 @@ public abstract class BaseDialogFragment
         }
     }
 
-    /**
-     * Key method for using { com.avast.android.dialogs.core.BaseDialogFragment}.
-     * Customized dialogs need to be set up via provided builder.
-     *
-     * @param initialBuilder Provided builder for setting up customized dialog
-     * @return Updated builder
-     */
-    protected abstract Builder build(Builder initialBuilder);
-
     @Override
     public void onDestroyView() {
         // bug in the compatibility library
@@ -104,16 +80,6 @@ public abstract class BaseDialogFragment
             getDialog().setDismissMessage(null);
         }
         super.onDestroyView();
-    }
-
-    public void showAllowingStateLoss(FragmentManager manager, String tag) {
-        FragmentTransaction ft = manager.beginTransaction();
-        ft.add(this, tag);
-        ft.commitAllowingStateLoss();
-    }
-
-    @Override
-    public void onShow(DialogInterface dialog) {
     }
 
     @Override
@@ -145,7 +111,12 @@ public abstract class BaseDialogFragment
     @SuppressWarnings("unchecked")
     protected <T> List<T> getDialogListeners(Class<T> listenerInterface) {
         final Fragment targetFragment = getTargetFragment();
-        List<T> listeners = new ArrayList<T>(2);
+        List<T> listeners = new ArrayList<>();
+        for (Fragment f : getChildFragmentManager().getFragments()) {
+            if (listenerInterface.isAssignableFrom(f.getClass()))
+                listeners.add((T) f);
+        }
+
         if (targetFragment != null && listenerInterface.isAssignableFrom(targetFragment.getClass())) {
             listeners.add((T) targetFragment);
         }
@@ -155,6 +126,12 @@ public abstract class BaseDialogFragment
         return Collections.unmodifiableList(listeners);
     }
 
+    public void showAllowingStateLoss(FragmentManager manager, String tag) {
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.add(this, tag);
+        ft.commitAllowingStateLoss();
+    }
+
     private boolean isScrollable(ViewGroup listView) {
         int totalHeight = 0;
         for (int i = 0; i < listView.getChildCount(); i++) {
@@ -162,6 +139,15 @@ public abstract class BaseDialogFragment
         }
         return listView.getMeasuredHeight() < totalHeight;
     }
+
+    /**
+     * Key method for using { com.avast.android.dialogs.core.BaseDialogFragment}.
+     * Customized dialogs need to be set up via provided builder.
+     *
+     * @param initialBuilder Provided builder for setting up customized dialog
+     * @return Updated builder
+     */
+    protected abstract Builder build(Builder initialBuilder);
 
 
     /**
@@ -176,7 +162,6 @@ public abstract class BaseDialogFragment
 
         private CharSequence mTitle = null;
         private CharSequence mSubTitle = null;
-        private CharSequence mMessage;
 
         private CharSequence mPositiveButtonText;
         private CharSequence mNegativeButtonText;
@@ -189,10 +174,8 @@ public abstract class BaseDialogFragment
         private View mCustomView;
         private ListAdapter mListAdapter;
 
-        private WrapContentHeightViewPager tabedDialogViewPager;
-        private TabViewPagerAdapter mTabAdapter;
-
-        private CharSequence[] mTabItems;
+        private WrapContentHeightViewPager viewPager;
+        private BaseViewPagerAdapter viewPagerAdapter;
 
         private int mListCheckedItemIdx;
         private int mChoiceMode;
@@ -201,11 +184,6 @@ public abstract class BaseDialogFragment
         private AdapterView.OnItemClickListener mOnItemClickListener;
 
         private int contentHeight;
-
-        private int mViewPagerScrollState = ViewPager.SCROLL_STATE_IDLE;
-
-        private int baseTabViewId = 12345;
-
 
         public Builder(Context context, LayoutInflater inflater, ViewGroup container) {
             this.mContext = context;
@@ -278,16 +256,6 @@ public abstract class BaseDialogFragment
             return this;
         }
 
-        public Builder setMessage(int messageId) {
-            mMessage = mContext.getText(messageId);
-            return this;
-        }
-
-        public Builder setMessage(CharSequence message) {
-            mMessage = message;
-            return this;
-        }
-
         public Builder setItems(ListAdapter listAdapter, int[] checkedItemIds, int choiceMode, final AdapterView.OnItemClickListener listener) {
             mListAdapter = listAdapter;
             mListCheckedItemMultipleIds = checkedItemIds;
@@ -297,9 +265,8 @@ public abstract class BaseDialogFragment
             return this;
         }
 
-        public Builder setTabItems(TabViewPagerAdapter tabAdapter, CharSequence[] tabItems) {
-            mTabAdapter = tabAdapter;
-            mTabItems = tabItems;
+        public Builder setTabItems(BaseViewPagerAdapter adapter) {
+            viewPagerAdapter = adapter;
             return this;
         }
 
@@ -328,10 +295,10 @@ public abstract class BaseDialogFragment
             TextView vTitle = content.findViewById(R.id.tdl_title_text);
             TextView vSubTitle = content.findViewById(R.id.tdl_subtitle_text);
 
-            tabedDialogViewPager = content.findViewById(R.id.tdl_view_pager);
+            viewPager = content.findViewById(R.id.view_pager);
             //setContentHeight();
 
-            final TabLayout vTabLayout = content.findViewById(R.id.tdl_sliding_tabs);
+            final TabLayout vTabLayout = content.findViewById(R.id.tab_layout);
 
             Button vPositiveButton = content.findViewById(R.id.tdl_button_positive);
             Button vNegativeButton = content.findViewById(R.id.tdl_button_negative);
@@ -341,14 +308,14 @@ public abstract class BaseDialogFragment
             Typeface mediumFont = TypefaceHelper.get(mContext, "Roboto-Medium");
 
             set(vTitle, mTitle, mediumFont);
-            set(vSubTitle, mSubTitle, mediumFont);
+            set(vSubTitle, mSubTitle, regularFont);
 
-            if (mTabAdapter != null) {
-                tabedDialogViewPager.setAdapter(mTabAdapter);
+            if (viewPagerAdapter != null) {
+                viewPager.setAdapter(viewPagerAdapter);
                 vTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        tabedDialogViewPager.setCurrentItem(tab.getPosition(), true);
+                        viewPager.setCurrentItem(tab.getPosition(), true);
                     }
 
                     @Override
@@ -361,38 +328,10 @@ public abstract class BaseDialogFragment
 
                     }
                 });
-                tabedDialogViewPager.setPageMargin(mContext.getResources().getDimensionPixelSize(R.dimen.my_tab_view_page_margin));
-                tabedDialogViewPager.setPageMarginDrawable(R.drawable.page_margin);
-                tabedDialogViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                        mViewPagerScrollState = ViewPager.SCROLL_STATE_DRAGGING;
-                    }
-
-                    @Override
-                    public void onPageSelected(int position) {
-                        TabLayout.Tab tab = vTabLayout.getTabAt(position);
-                        tab.select();
-                    }
-
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
-                        mViewPagerScrollState = ViewPager.SCROLL_STATE_IDLE;
-                    }
-                });
-                vTabLayout.setupWithViewPager(tabedDialogViewPager);
-
-                for (CharSequence mTabItem : mTabItems) {
-                    vTabLayout.setContentDescription(mTabItem);
-                }
-                // help you to select default tab
-                TabLayout.Tab tab = vTabLayout.getTabAt(0);
-                tab.select();
+                viewPager.setPageMargin(mContext.getResources().getDimensionPixelSize(R.dimen.my_tab_view_page_margin));
+                viewPager.setPageMarginDrawable(R.drawable.page_margin);
+                vTabLayout.setupWithViewPager(viewPager);
             }
-
-
-            //------end here--------//
-
 
             set(vPositiveButton, mPositiveButtonText, mediumFont, mPositiveButtonListener);
             set(vNegativeButton, mNegativeButtonText, mediumFont, mNegativeButtonListener);
@@ -406,9 +345,9 @@ public abstract class BaseDialogFragment
          */
         private void setContentHeight() {
             if (contentHeight <= 0) {
-                tabedDialogViewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) mContext.getResources().getDimension(R.dimen.dialog_main_pane_height)));
+                viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) mContext.getResources().getDimension(R.dimen.dialog_main_pane_height)));
             } else {
-                tabedDialogViewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, contentHeight));
+                viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, contentHeight));
             }
         }
 
@@ -444,49 +383,6 @@ public abstract class BaseDialogFragment
             } else {
                 textView.setVisibility(View.GONE);
             }
-        }
-    }
-
-    public class TabViewPagerAdapter extends FragmentPagerAdapter {
-        private final CharSequence[] titles;
-        private IFragmentListener listener;
-        private Fragment mCurrentFragment;
-        private int requestCode;
-
-        public TabViewPagerAdapter(FragmentManager fm, CharSequence[] titles, IFragmentListener listener, int requestCode) {
-            super(fm);
-            this.listener = listener;
-            this.titles = titles;
-            this.requestCode = requestCode;
-        }
-
-        Fragment getCurrentFragment() {
-            return mCurrentFragment;
-        }
-
-        @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            if (getCurrentFragment() != object) {
-                mCurrentFragment = ((Fragment) object);
-            }
-            super.setPrimaryItem(container, position, object);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            PageFragment fragment = PageFragment.newInstance(position, requestCode);
-            fragment.setListener(listener);
-            return fragment;
-        }
-
-        @Override
-        public int getCount() {
-            return titles.length;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titles[position];
         }
     }
 }

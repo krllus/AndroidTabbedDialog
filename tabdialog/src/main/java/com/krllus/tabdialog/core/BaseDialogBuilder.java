@@ -86,9 +86,7 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder<T>> {
         final BaseDialogFragment fragment = (BaseDialogFragment) Fragment.instantiate(mContext, mClass.getName(), args);
 
         args.putBoolean(ARG_CANCELABLE_ON_TOUCH_OUTSIDE, mCancelableOnTouchOutside);
-
         args.putBoolean(ARG_USE_DARK_THEME, mUseDarkTheme);
-
         args.putBoolean(ARG_USE_LIGHT_THEME, mUseLightTheme);
 
         if (mTargetFragment != null) {

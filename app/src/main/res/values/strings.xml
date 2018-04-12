@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Tabbed Dialogs</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="subtitle">subtitle</string>
+
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla suscipit nibh diam, in ultricies risus dignissim et. Aenean luctus, nisi et elementum volutpat, risus ex semper purus, quis porttitor ipsum metus eget urna. Vivamus in gravida velit, at interdum nisi. Pellentesque pretium porttitor nibh, eu vehicula ex lobortis sed. Duis interdum quam at aliquet tempor. Proin mollis cursus vestibulum. Pellentesque vitae arcu neque. Aliquam viverra nisl a fermentum laoreet. Maecenas iaculis sapien risus, vitae sodales lacus vulputate eget.</string>
 </resources>
