@@ -30,10 +30,8 @@ dependencies {
 ```java
     private ArrayList<DialogTabItem> items;
 
-    TabDialogFragment.createBuilder(MainActivity.this, getSupportFragmentManager())
-        .setTitle("Title")
-        .setSubTitle("SubTitle")
-        .setListener(new IViewPagerAdapterInterface() {
+    TabDialogFragment.createBuilder(getContext(), getFragmentManager(),
+        new IViewPagerAdapterInterface() {
             @Override
             public CharSequence getTitle(int position) {
                 return retrieveItems().get(position).getTitle();
@@ -49,6 +47,8 @@ dependencies {
                 return retrieveItems().size();
             }
         })
+        .setTitle("Title")
+        .setSubTitle("SubTitle")
         .setPositiveButtonText("Ok")
         .setNegativeButtonText("Cancel")
         .setNeutralButtonText("Hello")
