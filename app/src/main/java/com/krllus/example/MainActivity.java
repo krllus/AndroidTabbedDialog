@@ -12,7 +12,7 @@ import com.krllus.tabdialog.fragment.PageFragment;
 import com.krllus.tabdialog.fragment.TabDialogFragment;
 import com.krllus.tabdialog.iface.ISimpleDialogCancelListener;
 import com.krllus.tabdialog.iface.ISimpleDialogListener;
-import com.krllus.tabdialog.iface.ViewPagerAdapterInterface;
+import com.krllus.tabdialog.iface.IViewPagerAdapterInterface;
 import com.krllus.tabdialog.model.DialogTabItem;
 
 import java.util.ArrayList;
@@ -23,34 +23,35 @@ public class MainActivity
 
     private static final int REQUEST_TABBED_DIALOG = 49;
 
+    private ArrayList<DialogTabItem> items;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         findViewById(R.id.testbutton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TabDialogFragment.createBuilder(MainActivity.this, getSupportFragmentManager())
-                        .setTitle("Title")
-                        .setSubTitle(R.string.subtitle)
-                        .setListener(new ViewPagerAdapterInterface() {
+                TabDialogFragment.createBuilder(MainActivity.this, getSupportFragmentManager(),
+                        new IViewPagerAdapterInterface() {
                             @Override
                             public CharSequence getTitle(int position) {
-                                return null;
+                                return retrieveItems().get(position).getTitle();
                             }
 
                             @Override
                             public Fragment getItem(int position) {
-                                return null;
+                                return retrieveItems().get(position).getFragment();
                             }
 
                             @Override
                             public int getCount() {
-                                return 0;
+                                return retrieveItems().size();
                             }
                         })
+                        .setTitle("Title")
+                        .setSubTitle(R.string.subtitle)
                         .setPositiveButtonText("OK")
                         .setNegativeButtonText("Cancel")
                         .setRequestCode(REQUEST_TABBED_DIALOG)
@@ -68,12 +69,17 @@ public class MainActivity
 
     }
 
-    private ArrayList<DialogTabItem> buildTabItens() {
-        ArrayList<DialogTabItem> itens = new ArrayList<>();
-        itens.add(new DialogTabItem(PageFragment.newInstance(), "Tab 01"));
-        itens.add(new DialogTabItem(PageFragment.newInstance(), "Tab 02"));
-        itens.add(new DialogTabItem(PageFragment.newInstance(), "Tab 03"));
-        return itens;
+    private ArrayList<DialogTabItem> retrieveItems() {
+        if (items == null)
+            items = new ArrayList<>();
+
+        if (items.isEmpty()) {
+            items.add(new DialogTabItem(PageFragment.newInstance(), "Tab 01"));
+            //items.add(new DialogTabItem(PageFragment.newInstance(), "Tab 02"));
+            items.add(new DialogTabItem(PageFragment.newInstance(), "Tab 03"));
+        }
+
+        return items;
     }
 
 
@@ -95,7 +101,7 @@ public class MainActivity
                 Toast.makeText(MainActivity.this, "Activity Negative Clicked", Toast.LENGTH_SHORT).show();
                 if (dialog != null && dialog.isShowing())
                     //dialog.dismiss();
-                break;
+                    break;
         }
     }
 
@@ -106,7 +112,7 @@ public class MainActivity
                 Toast.makeText(MainActivity.this, "Activity Neutral Clicked", Toast.LENGTH_SHORT).show();
                 if (dialog != null && dialog.isShowing())
                     //dialog.dismiss();
-                break;
+                    break;
         }
     }
 
@@ -117,7 +123,7 @@ public class MainActivity
                 Toast.makeText(MainActivity.this, "Activity Positive Clicked", Toast.LENGTH_SHORT).show();
                 if (dialog != null && dialog.isShowing())
                     //dialog.dismiss();
-                break;
+                    break;
         }
     }
 }

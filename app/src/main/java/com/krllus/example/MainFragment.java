@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.krllus.tabdialog.fragment.PageFragment;
 import com.krllus.tabdialog.fragment.TabDialogFragment;
 import com.krllus.tabdialog.iface.ISimpleDialogListener;
-import com.krllus.tabdialog.iface.ViewPagerAdapterInterface;
+import com.krllus.tabdialog.iface.IViewPagerAdapterInterface;
 import com.krllus.tabdialog.model.DialogTabItem;
 
 import java.util.ArrayList;
@@ -30,6 +30,8 @@ public class MainFragment
         implements ISimpleDialogListener {
 
     private static final int REQUEST_CODE_FRAGMENT = 50;
+
+    private ArrayList<DialogTabItem> items;
 
     public MainFragment() {
         // Required empty public constructor
@@ -64,25 +66,25 @@ public class MainFragment
     }
 
     private void launchDialog() {
-        TabDialogFragment.createBuilder(getContext(), getFragmentManager())
-                .setTitle("Fragment Title")
-                .setSubTitle("Using fragments is really cool")
-                .setListener(new ViewPagerAdapterInterface() {
+        TabDialogFragment.createBuilder(getContext(), getFragmentManager(),
+                new IViewPagerAdapterInterface() {
                     @Override
                     public CharSequence getTitle(int position) {
-                        return null;
+                        return retrieveItems().get(position).getTitle();
                     }
 
                     @Override
                     public Fragment getItem(int position) {
-                        return null;
+                        return retrieveItems().get(position).getFragment();
                     }
 
                     @Override
                     public int getCount() {
-                        return 0;
+                        return retrieveItems().size();
                     }
                 })
+                .setTitle("Fragment Title")
+                .setSubTitle("Using fragments is really cool")
                 .setPositiveButtonText("OK")
                 .setNegativeButtonText("Cancel")
                 .setTargetFragment(this, REQUEST_CODE_FRAGMENT)
@@ -90,14 +92,18 @@ public class MainFragment
                 .show();
     }
 
-    private ArrayList<DialogTabItem> buildTabItens() {
-        ArrayList<DialogTabItem> itens = new ArrayList<>();
-        itens.add(new DialogTabItem(PageFragment.newInstance(), "Uno"));
-        itens.add(new DialogTabItem(PageFragment.newInstance(), "Dos"));
-        itens.add(new DialogTabItem(PageFragment.newInstance(), "Cuatro"));
-        return itens;
-    }
+    private ArrayList<DialogTabItem> retrieveItems() {
+        if (items == null)
+            items = new ArrayList<>();
 
+        if (items.isEmpty()) {
+            items.add(new DialogTabItem(PageFragment.newInstance(), "Uno"));
+            items.add(new DialogTabItem(PageFragment.newInstance(), "Dos"));
+            items.add(new DialogTabItem(TextFragment.newInstance("Shh, we don't talk about tres"), "Cuatro"));
+        }
+
+        return items;
+    }
 
     private void selectedFirstTab(View container) {
         // add view in container for first tab

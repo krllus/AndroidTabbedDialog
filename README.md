@@ -2,7 +2,6 @@
 
 [![](https://jitpack.io/v/krllus/AndroidTabbedDialog.svg)](https://jitpack.io/#krllus/AndroidTabbedDialog)
 
-
 # AndroidTabbedDialog
 
 ![](https://raw.githubusercontent.com/krllus/AndroidTabbedDialog/master/screenshots/test.gif)
@@ -12,8 +11,8 @@ Add jitpack to your project’s repositories.
 
 ```
 repositories {
-        // ...
-        maven { url "https://jitpack.io" }
+    // ...
+    maven { url "https://jitpack.io" }
 }
 ```
 
@@ -21,7 +20,7 @@ Then add Tabbed dialog to your Module’s dependencies
 
 ```
 dependencies {
-        compile 'com.github.krllus:AndroidTabbedDialog:v1.2.0'
+    implements 'com.github.krllus:AndroidTabbedDialog:v1.3.0'
 }
 ```
 
@@ -29,52 +28,47 @@ dependencies {
 ## How to create tab dialogs:
 
 ```java
-TabDialogFragment.createBuilder(MainActivity.this, getSupportFragmentManager())
-                        .setTitle("Title")
-                        .setSubTitle("SubTitle")
-                        .setTabButtonText(new CharSequence[]{"Tab1", "Tab2", "Tab3"})
-                        .setPositiveButtonText("Ok")
-                        .setNegativeButtonText("Cancel")
-                        .setNeutralButtonText("Hello")
-                        .setRequestCode(REQUEST_SIMPLE_DIALOG)
-                        .show();
+    private ArrayList<DialogTabItem> items;
+
+    TabDialogFragment.createBuilder(MainActivity.this, getSupportFragmentManager())
+        .setTitle("Title")
+        .setSubTitle("SubTitle")
+        .setListener(new IViewPagerAdapterInterface() {
+            @Override
+            public CharSequence getTitle(int position) {
+                return retrieveItems().get(position).getTitle();
+            }
+
+            @Override
+            public Fragment getItem(int position) {
+                return retrieveItems().get(position).getFragment();
+            }
+
+            @Override
+            public int getCount() {
+                return retrieveItems().size();
+            }
+        })
+        .setPositiveButtonText("Ok")
+        .setNegativeButtonText("Cancel")
+        .setNeutralButtonText("Hello")
+        .setRequestCode(REQUEST_SIMPLE_DIALOG)
+        .show();
+
+    private ArrayList<DialogTabItem> retrieveItems() {
+        if (items == null)
+            items = new ArrayList<>();
+        if (items.isEmpty()) {
+            items.add(new DialogTabItem(PageFragment.newInstance(), "Tab 01"));
+            items.add(new DialogTabItem(PageFragment.newInstance(), "Tab 02"));
+            items.add(new DialogTabItem(PageFragment.newInstance(), "Tab 03"));
+        }
+        return items;
+    }
 ```
 
 ### How to react on button press in your Activity/Fragment:
 Simply implement interface `ISimpleDialogListener` in your Activity/Fragment. Listener's callbacks have `requestCode` parameter - you can use it if you have more dialogs in one Activity/Fragment.
-
-### How to render tab view inside your dialog:
-Simply implement interface `IFragmentListener` in your Activity/Fragment. Listener's callbacks have:-
-
-`onFragmentViewCreated(Fragment fragment)`
-`onFragmentAttached(Fragment fragment)`
-`onFragmentDetached(Fragment fragment)`
-
-```java
-    @Override
-    public void onFragmentViewCreated(Fragment fragment) {
-        int selectedTabPosition = fragment.getArguments().getInt(PageFragment.ARG_DAY_INDEX, 0);
-        View rootContainer = fragment.getView().findViewById(R.id.root_container);
-        Log.i(TAG, "Position: " + selectedTabPosition);
-
-        switch (selectedTabPosition) {
-            case 0:
-                // add view in container for first tab
-                View tabProductDetailLayout = getLayoutInflater().inflate(R.layout.tab_one_layout, (ViewGroup) rootContainer);
-
-                TextView textView = (TextView) tabProductDetailLayout.findViewById(R.id.text_view);
-                textView.setText("hello: tab1");
-                break;
-            case 1:
-                // add view in container for second tab
-                View tabProductDetailLayout2 = getLayoutInflater().inflate(R.layout.tab_one_layout, (ViewGroup) rootContainer);
-
-                TextView textView1 = (TextView) tabProductDetailLayout2.findViewById(R.id.text_view);
-                textView1.setText("hello: tab2");
-                break;
-        }
-    }
-```
 
 ## License
 Copyright (c) 2018 João Carlos

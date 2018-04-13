@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Biox Pecuária Moderna
  * desenvolvedorberrante@bioxbr.com
  */
-public interface ViewPagerAdapterInterface extends Serializable {
+public interface IViewPagerAdapterInterface extends Serializable {
     CharSequence getTitle(int position);
 
     Fragment getItem(int position);

@@ -6,8 +6,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * Created by João Carlos Ferreira Marques on 4/10/18.
- * joaocarlusferrera at gmail.com
+ * Created by João Carlos on 4/12/18.
+ * joaocarlusferrera at gmail
  */
 public class WrapContentHeightViewPager extends ViewPager {
 

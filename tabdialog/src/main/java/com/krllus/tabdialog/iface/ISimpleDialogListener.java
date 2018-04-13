@@ -21,6 +21,7 @@ package com.krllus.tabdialog.iface;
  *
  * @author David Vávra (david@inmite.eu)
  */
-public interface ISimpleDialogListener extends IPositiveButtonDialogListener, INegativeButtonDialogListener, INeutralButtonDialogListener {
+public interface ISimpleDialogListener
+        extends IPositiveButtonDialogListener, INegativeButtonDialogListener, INeutralButtonDialogListener {
 
 }

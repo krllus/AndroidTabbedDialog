@@ -12,7 +12,7 @@ import com.krllus.tabdialog.core.BaseViewPagerAdapter;
 import com.krllus.tabdialog.iface.INegativeButtonDialogListener;
 import com.krllus.tabdialog.iface.INeutralButtonDialogListener;
 import com.krllus.tabdialog.iface.IPositiveButtonDialogListener;
-import com.krllus.tabdialog.iface.ViewPagerAdapterInterface;
+import com.krllus.tabdialog.iface.IViewPagerAdapterInterface;
 
 import java.util.List;
 
@@ -23,11 +23,13 @@ public class TabDialogFragment extends BaseDialogFragment {
     protected final static String ARG_POSITIVE_BUTTON = "positive_button";
     protected final static String ARG_NEGATIVE_BUTTON = "negative_button";
     protected final static String ARG_NEUTRAL_BUTTON = "neutral_button";
-    protected final static String ARG_LISTENER = "listener";
-
 
     public static TabDialogBuilder createBuilder(Context context, FragmentManager fragmentManager) {
-        return new TabDialogBuilder(context, fragmentManager, TabDialogFragment.class);
+        return new TabDialogBuilder(context, fragmentManager, TabDialogFragment.class, null);
+    }
+
+    public static TabDialogBuilder createBuilder(Context context, FragmentManager fragmentManager, IViewPagerAdapterInterface listener) {
+        return new TabDialogBuilder(context, fragmentManager, TabDialogFragment.class, listener);
     }
 
     @Override
@@ -78,7 +80,8 @@ public class TabDialogFragment extends BaseDialogFragment {
             });
         }
 
-        if (getListener() != null && getListener().getCount() > 0) {
+
+        if (getViewPagerListener() != null && getViewPagerListener().getCount() > 0) {
             buildTab(builder);
         }
 
@@ -90,8 +93,7 @@ public class TabDialogFragment extends BaseDialogFragment {
     }
 
     private BaseViewPagerAdapter prepareAdapter() {
-        //return new BaseViewPagerAdapter(getChildFragmentManager(), getTabButtonText(), getFragmentListener(), mRequestCode);
-        return new BaseViewPagerAdapter(getChildFragmentManager(), getListener());
+        return new BaseViewPagerAdapter(getChildFragmentManager(), getViewPagerListener());
     }
 
     protected CharSequence getTitle() {
@@ -112,10 +114,6 @@ public class TabDialogFragment extends BaseDialogFragment {
 
     protected CharSequence getNeutralButtonText() {
         return getArguments().getCharSequence(ARG_NEUTRAL_BUTTON);
-    }
-
-    protected ViewPagerAdapterInterface getListener() {
-        return (ViewPagerAdapterInterface) getArguments().getSerializable(ARG_NEUTRAL_BUTTON);
     }
 
     /**
@@ -158,10 +156,9 @@ public class TabDialogFragment extends BaseDialogFragment {
         private CharSequence mPositiveButtonText;
         private CharSequence mNegativeButtonText;
         private CharSequence mNeutralButtonText;
-        private ViewPagerAdapterInterface mListener;
 
-        TabDialogBuilder(Context context, FragmentManager fragmentManager, Class<? extends BaseDialogFragment> clazz) {
-            super(context, fragmentManager, clazz);
+        TabDialogBuilder(Context context, FragmentManager fragmentManager, Class<? extends BaseDialogFragment> clazz, IViewPagerAdapterInterface listener) {
+            super(context, fragmentManager, clazz, listener);
         }
 
         @Override
@@ -173,7 +170,6 @@ public class TabDialogFragment extends BaseDialogFragment {
             mTitle = mContext.getString(titleResourceId);
             return this;
         }
-
 
         public TabDialogBuilder setTitle(CharSequence title) {
             mTitle = title;
@@ -220,11 +216,6 @@ public class TabDialogFragment extends BaseDialogFragment {
             return this;
         }
 
-        public TabDialogBuilder setListener(ViewPagerAdapterInterface listener) {
-            mListener = listener;
-            return this;
-        }
-
         @Override
         protected Bundle prepareArguments() {
             Bundle args = new Bundle();
@@ -233,7 +224,6 @@ public class TabDialogFragment extends BaseDialogFragment {
             args.putCharSequence(TabDialogFragment.ARG_POSITIVE_BUTTON, mPositiveButtonText);
             args.putCharSequence(TabDialogFragment.ARG_NEGATIVE_BUTTON, mNegativeButtonText);
             args.putCharSequence(TabDialogFragment.ARG_NEUTRAL_BUTTON, mNeutralButtonText);
-            args.putSerializable(TabDialogFragment.ARG_LISTENER, mListener);
 
             return args;
         }

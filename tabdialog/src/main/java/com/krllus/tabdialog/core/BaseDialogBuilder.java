@@ -6,6 +6,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.krllus.tabdialog.iface.IViewPagerAdapterInterface;
+
 /**
  * Internal base builder that holds common values for all dialog fragment builders.
  * <p/>
@@ -19,9 +21,11 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder<T>> {
     public final static int DEFAULT_REQUEST_CODE = -42;
     public static String ARG_USE_DARK_THEME = "usedarktheme";
     public static String ARG_USE_LIGHT_THEME = "uselighttheme";
+
     protected final Context mContext;
     protected final FragmentManager mFragmentManager;
     protected final Class<? extends BaseDialogFragment> mClass;
+
     private String mTag = DEFAULT_TAG;
     private int mRequestCode = DEFAULT_REQUEST_CODE;
     private Fragment mTargetFragment;
@@ -30,11 +34,15 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder<T>> {
     private boolean mUseDarkTheme = false;
     private boolean mUseLightTheme = false;
 
+    private IViewPagerAdapterInterface mViewPagerListener;
 
-    public BaseDialogBuilder(Context context, FragmentManager fragmentManager, Class<? extends BaseDialogFragment> clazz) {
+    public BaseDialogBuilder(Context context,
+                             FragmentManager fragmentManager,
+                             Class<? extends BaseDialogFragment> clazz, IViewPagerAdapterInterface listener) {
         mFragmentManager = fragmentManager;
         mContext = context.getApplicationContext();
         mClass = clazz;
+        mViewPagerListener = listener;
     }
 
     protected abstract T self();
@@ -95,6 +103,7 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder<T>> {
             args.putInt(ARG_REQUEST_CODE, mRequestCode);
         }
         fragment.setCancelable(mCancelable);
+        fragment.setViewPagerListener(mViewPagerListener);
         return fragment;
     }
 

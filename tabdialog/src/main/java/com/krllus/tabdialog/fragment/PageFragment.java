@@ -1,7 +1,6 @@
 package com.krllus.tabdialog.fragment;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,18 +12,31 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.krllus.tabdialog.R;
-import com.krllus.tabdialog.iface.IFragmentListener;
 import com.krllus.tabdialog.iface.ISimpleDialogListener;
 
 import java.util.Locale;
 import java.util.Random;
 
+/**
+ * Created by João Carlos on 4/12/18.
+ * joaocarlusferrera at gmail
+ */
 public class PageFragment
         extends Fragment
         implements ISimpleDialogListener {
 
     public static PageFragment newInstance() {
         return new PageFragment();
+    }
+
+    private TextView txtView;
+    private int randomNumber;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Random random = new Random();
+        randomNumber = random.nextInt(100) + 1;
     }
 
     @Nullable
@@ -34,13 +46,7 @@ public class PageFragment
 
         ViewGroup group = (ViewGroup) rootView;
 
-        TextView txtView = new TextView(rootView.getContext());
-
-        Random random = new Random();
-        int rNum = random.nextInt(100) + 1;
-        String txt = String.format(Locale.getDefault(), "Your luck number: %d", rNum);
-        txtView.setText(txt);
-
+        txtView = new TextView(rootView.getContext());
         group.addView(txtView);
 
         return rootView;
@@ -49,61 +55,30 @@ public class PageFragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        if (getActivity() instanceof IFragmentListener) {
-            ((IFragmentListener) getActivity()).onFragmentViewCreated(this);
-        } else {
-            Fragment parentFragment;
-            parentFragment = getParentFragment();
-
-            if (parentFragment instanceof IFragmentListener) {
-                ((IFragmentListener) parentFragment).onFragmentViewCreated(this);
-            }
-        }
+        updateUI();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (getActivity() instanceof IFragmentListener) {
-            ((IFragmentListener) getActivity()).onFragmentAttached(this);
-        } else {
-            Fragment parentFragment;
-            parentFragment = getParentFragment();
-
-            if (parentFragment instanceof IFragmentListener) {
-                ((IFragmentListener) parentFragment).onFragmentAttached(this);
-            }
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        if (getActivity() instanceof IFragmentListener) {
-            ((IFragmentListener) getActivity()).onFragmentDetached(this);
-        } else {
-            Fragment parentFragment;
-            parentFragment = getParentFragment();
-
-            if (parentFragment instanceof IFragmentListener) {
-                ((IFragmentListener) parentFragment).onFragmentDetached(this);
-            }
-        }
+    private void updateUI() {
+        randomNumber = randomNumber * 5 / 3;
+        String txt = String.format(Locale.getDefault(), "Your luck number: %d", randomNumber);
+        txtView.setText(txt);
     }
 
     @Override
     public void onNegativeButtonClicked(int requestCode, Dialog dialog) {
+        updateUI();
         Log.d("PageFragment", "Negative R Code: " + requestCode);
     }
 
     @Override
     public void onNeutralButtonClicked(int requestCode, Dialog dialog) {
+        updateUI();
         Log.d("PageFragment", "Neutral R Code: " + requestCode);
     }
 
     @Override
     public void onPositiveButtonClicked(int requestCode, Dialog dialog) {
+        updateUI();
         Log.d("PageFragment", "Positive R Code: " + requestCode);
     }
 }

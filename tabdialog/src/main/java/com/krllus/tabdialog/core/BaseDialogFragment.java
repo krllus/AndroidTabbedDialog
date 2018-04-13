@@ -25,16 +25,25 @@ import android.widget.TextView;
 import com.krllus.tabdialog.R;
 import com.krllus.tabdialog.custom.WrapContentHeightViewPager;
 import com.krllus.tabdialog.iface.ISimpleDialogCancelListener;
+import com.krllus.tabdialog.iface.IViewPagerAdapterInterface;
 import com.krllus.tabdialog.util.TypefaceHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class BaseDialogFragment
-        extends DialogFragment {
+public abstract class BaseDialogFragment extends DialogFragment {
 
     protected int mRequestCode;
+    private IViewPagerAdapterInterface listener;
+
+    public IViewPagerAdapterInterface getViewPagerListener() {
+        return listener;
+    }
+
+    public void setViewPagerListener(IViewPagerAdapterInterface listener) {
+        this.listener = listener;
+    }
 
     @NonNull
     @Override
@@ -149,7 +158,6 @@ public abstract class BaseDialogFragment
      */
     protected abstract Builder build(Builder initialBuilder);
 
-
     /**
      * Custom dialog builder
      */
@@ -185,7 +193,7 @@ public abstract class BaseDialogFragment
 
         private int contentHeight;
 
-        public Builder(Context context, LayoutInflater inflater, ViewGroup container) {
+        Builder(Context context, LayoutInflater inflater, ViewGroup container) {
             this.mContext = context;
             this.mContainer = container;
             this.mInflater = inflater;
