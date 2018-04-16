@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar_actionbar"
     android:layout_width="match_parent"
-    android:layout_height="?actionBarSize"
-    android:layout_weight="1"
-
-    android:gravity="center_vertical"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/colorPrimary"
+    android:elevation="@dimen/header_elevation"
     android:orientation="vertical"
+    android:paddingEnd="@dimen/dialog_title_padding"
+    android:paddingStart="@dimen/dialog_title_padding"
+    android:paddingTop="@dimen/dialog_title_padding_top"
     android:popupTheme="@style/AppTheme.PopupOverlay"
     android:theme="@style/AppTheme.AppBarOverlay"
-    app:contentInsetStart="?actionBarInsetStart">
+    app:contentInsetStart="?actionBarInsetStart"
+    tools:background="?android:attr/colorAccent">
 
     <TextView
         android:id="@+id/tdl_title_text"
@@ -19,16 +22,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="@dimen/md_keylines"
-        tools:text="title" />
+        tools:text="TITLE"
+        tools:textColor="@color/black" />
 
     <TextView
         android:id="@+id/tdl_subtitle_text"
         style="@style/TextAppearance.Dialog.SubHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/md_keylines"
-        android:layout_marginTop="@dimen/md_micro"
-        tools:text="subtitle" />
+        tools:text="SUBTITLE"
+        tools:textColor="@color/black" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/include_footer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabGravity="center"
+        app:tabIndicatorColor="@color/white"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/white" />
 
 </LinearLayout>

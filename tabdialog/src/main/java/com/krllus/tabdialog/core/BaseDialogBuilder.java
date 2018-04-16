@@ -2,6 +2,7 @@ package com.krllus.tabdialog.core;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.StyleRes;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,10 +16,12 @@ import com.krllus.tabdialog.iface.IViewPagerAdapterInterface;
  */
 public abstract class BaseDialogBuilder<T extends BaseDialogBuilder<T>> {
 
+    public final static int DEFAULT_REQUEST_CODE = -42;
+    public final static String DEFAULT_TAG = "simple_dialog";
+
     public final static String ARG_REQUEST_CODE = "request_code";
     public final static String ARG_CANCELABLE_ON_TOUCH_OUTSIDE = "cancelable_oto";
-    public final static String DEFAULT_TAG = "simple_dialog";
-    public final static int DEFAULT_REQUEST_CODE = -42;
+    public static String ARG_USE_CUSTOM_THEME = "usecustomtheme";
     public static String ARG_USE_DARK_THEME = "usedarktheme";
     public static String ARG_USE_LIGHT_THEME = "uselighttheme";
 
@@ -31,6 +34,7 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder<T>> {
     private Fragment mTargetFragment;
     private boolean mCancelable = true;
     private boolean mCancelableOnTouchOutside = true;
+    private int mUseCustomTheme = 0;
     private boolean mUseDarkTheme = false;
     private boolean mUseLightTheme = false;
 
@@ -78,6 +82,12 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder<T>> {
         return self();
     }
 
+    public T useCustomTheme(@StyleRes int theme) {
+        mUseCustomTheme = theme;
+        return self();
+    }
+
+    /*
     public T useDarkTheme() {
         mUseDarkTheme = true;
         return self();
@@ -86,7 +96,7 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder<T>> {
     public T useLightTheme() {
         mUseLightTheme = true;
         return self();
-    }
+    }*/
 
     private BaseDialogFragment create() {
         final Bundle args = prepareArguments();
@@ -96,6 +106,7 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder<T>> {
         args.putBoolean(ARG_CANCELABLE_ON_TOUCH_OUTSIDE, mCancelableOnTouchOutside);
         args.putBoolean(ARG_USE_DARK_THEME, mUseDarkTheme);
         args.putBoolean(ARG_USE_LIGHT_THEME, mUseLightTheme);
+        args.putInt(ARG_USE_CUSTOM_THEME, mUseCustomTheme);
 
         if (mTargetFragment != null) {
             fragment.setTargetFragment(mTargetFragment, mRequestCode);

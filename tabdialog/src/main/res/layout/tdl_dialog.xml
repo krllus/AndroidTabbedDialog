@@ -1,103 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <include
+        android:id="@+id/include_header"
+        layout="@layout/tdl_dialog_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:orientation="vertical"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <include layout="@layout/tdl_dialog_header" />
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabGravity="center"
-            app:tabIndicatorColor="@color/white"
-            app:tabMode="scrollable"
-            app:tabSelectedTextColor="@color/white" />
-
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 
     <com.krllus.tabdialog.custom.WrapContentHeightViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false" />
+        android:layout_height="0dp" />
 
-    <include layout="@layout/horizontal_separator" />
-
-    <RelativeLayout
+    <include
+        android:id="@+id/include_footer"
+        layout="@layout/tdl_dialog_footer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical">
+        android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/tdl_button_neutral"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/md_separator"
-            android:layout_marginStart="@dimen/md_micro"
-            android:fontFamily="@string/font_fontFamily_medium"
-            android:minWidth="@dimen/card_min_button_width"
-            android:paddingEnd="@dimen/md_separator"
-            android:paddingLeft="@dimen/md_separator"
-            android:paddingRight="@dimen/md_separator"
-            android:paddingStart="@dimen/md_separator"
-            android:textAllCaps="true"
-            android:textSize="@dimen/text_size_medium"
-            tools:text="Neutral" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/tdl_button_negative"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@string/font_fontFamily_medium"
-                android:minWidth="@dimen/card_min_button_width"
-                android:paddingEnd="@dimen/md_separator"
-                android:paddingLeft="@dimen/md_separator"
-                android:paddingRight="@dimen/md_separator"
-                android:paddingStart="@dimen/md_separator"
-                android:textAllCaps="true"
-                android:textSize="@dimen/text_size_medium"
-                tools:text="Negative" />
-
-            <Button
-                android:id="@+id/tdl_button_positive"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/md_separator"
-                android:layout_marginStart="@dimen/md_micro"
-                android:fontFamily="@string/font_fontFamily_medium"
-                android:minWidth="@dimen/card_min_button_width"
-                android:paddingEnd="@dimen/md_separator"
-                android:paddingLeft="@dimen/md_separator"
-                android:paddingRight="@dimen/md_separator"
-                android:paddingStart="@dimen/md_separator"
-                android:textAllCaps="true"
-                android:textSize="@dimen/text_size_medium"
-                tools:text="Positive" />
-
-        </LinearLayout>
-    </RelativeLayout>
 </LinearLayout>

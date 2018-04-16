@@ -8,4 +8,24 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- ALERT DIALOG -->
+    <style name="Custom.AlertDialogTheme" parent="Theme.AppCompat.Dialog">
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:background">@drawable/button_red</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:minHeight">36dp</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:background">@drawable/button_green</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:minHeight">36dp</item>
+    </style>
+
 </resources>

@@ -15,4 +15,16 @@
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#000000</color>
 
+    <color name="brow">#4E342E</color>
+    <color name="brow_disabled">#A1887F</color>
+    <color name="brow_pressed">#8D6E63</color>
+
+    <color name="red">#C62828</color>
+    <color name="red_pressed">#EF5350</color>
+    <color name="red_disabled">#E57373</color>
+
+    <color name="green">#2E7D32</color>
+    <color name="green_disabled">#81C784</color>
+    <color name="green_pressed">#66BB6A</color>
+
 </resources>

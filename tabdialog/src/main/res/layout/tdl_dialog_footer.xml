@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dialog_footer_height"
+    android:orientation="vertical">
+
+    <include layout="@layout/horizontal_separator" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/md_separator"
+        android:paddingEnd="@dimen/md_separator"
+        android:paddingStart="@dimen/md_separator">
+
+        <Button
+            android:id="@+id/tdl_button_neutral"
+            style="?android:attr/buttonBarNegativeButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/md_separator"
+            android:layout_marginStart="@dimen/md_micro"
+            android:layout_marginTop="@dimen/md_separator"
+            android:fontFamily="@string/font_fontFamily_medium"
+            android:minWidth="@dimen/card_min_button_width"
+            android:textAllCaps="true"
+            android:textSize="@dimen/text_size_medium"
+            tools:text="Neutral" />
+
+        <Button
+            android:id="@+id/tdl_button_negative"
+            style="?android:attr/buttonBarNegativeButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/md_separator"
+            android:layout_marginTop="@dimen/md_separator"
+            android:layout_toStartOf="@+id/tdl_button_positive"
+            android:fontFamily="@string/font_fontFamily_medium"
+            android:minWidth="@dimen/card_min_button_width"
+            android:textAllCaps="true"
+            android:textSize="@dimen/text_size_medium"
+            tools:text="Negative" />
+
+        <Button
+            android:id="@+id/tdl_button_positive"
+            style="?android:attr/buttonBarPositiveButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/md_separator"
+            android:fontFamily="@string/font_fontFamily_medium"
+            android:minWidth="@dimen/card_min_button_width"
+            android:textAllCaps="true"
+            android:textSize="@dimen/text_size_medium"
+            tools:text="Positive" />
+
+    </RelativeLayout>
+
+</LinearLayout>

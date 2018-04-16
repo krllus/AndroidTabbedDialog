@@ -48,13 +48,26 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = new Dialog(getActivity());
-
+        Dialog dialog;
         Bundle args = getArguments();
+        boolean canceledOnTouchOutside = false;
+        boolean useDarkTheme = false;
+        boolean useLightTheme = false;
+        int theme = 0;
+
         if (args != null) {
-            dialog.setCanceledOnTouchOutside(
-                    args.getBoolean(BaseDialogBuilder.ARG_CANCELABLE_ON_TOUCH_OUTSIDE));
+            canceledOnTouchOutside = args.getBoolean(BaseDialogBuilder.ARG_CANCELABLE_ON_TOUCH_OUTSIDE, false);
+            theme = args.getInt(BaseDialogBuilder.ARG_USE_CUSTOM_THEME, 0);
+            useDarkTheme = args.getBoolean(BaseDialogBuilder.ARG_CANCELABLE_ON_TOUCH_OUTSIDE, false);
+            useLightTheme = args.getBoolean(BaseDialogBuilder.ARG_CANCELABLE_ON_TOUCH_OUTSIDE, false);
         }
+
+        if (theme == 0)
+            dialog = new Dialog(getActivity());
+        else
+            dialog = new Dialog(getActivity(), theme);
+
+        dialog.setCanceledOnTouchOutside(canceledOnTouchOutside);
         /*
          * disable the actual title of a dialog cause custom dialog title is rendering through custom layout
          */
@@ -298,7 +311,6 @@ public abstract class BaseDialogFragment extends DialogFragment {
         }
 
         View create() {
-
             final LinearLayout content = (LinearLayout) mInflater.inflate(R.layout.tdl_dialog, mContainer, false);
             TextView vTitle = content.findViewById(R.id.tdl_title_text);
             TextView vSubTitle = content.findViewById(R.id.tdl_subtitle_text);

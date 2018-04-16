@@ -54,6 +54,7 @@ public class MainActivity
                         .setSubTitle(R.string.subtitle)
                         .setPositiveButtonText("OK")
                         .setNegativeButtonText("Cancel")
+                        .useCustomTheme(R.style.Custom_AlertDialogTheme)
                         .setRequestCode(REQUEST_TABBED_DIALOG)
                         .show();
             }
