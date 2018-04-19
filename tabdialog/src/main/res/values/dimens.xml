@@ -8,7 +8,7 @@
     <dimen name="dialog_title_padding">24dp</dimen>
     <dimen name="dialog_title_padding_bottom">20dp</dimen>
     <dimen name="dialog_content_padding_bottom">24dp</dimen>
-    <dimen name="dialog_max_height">196dp</dimen>
+    <dimen name="dialog_content_heigth_max_size">196dp</dimen>
 
     <dimen name="dialog_footer_height">56dp</dimen>
 

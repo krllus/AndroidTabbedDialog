@@ -11,7 +11,6 @@
 
     <declare-styleable name="WrapContentHeightViewPager">
         <attr name="maxHeight" format="dimension" />
-        <attr name="minHeight" format="dimension" />
     </declare-styleable>
 
 </resources>

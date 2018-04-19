@@ -15,8 +15,6 @@ import com.krllus.tabdialog.R;
 public class WrapContentHeightViewPager extends ViewPager {
 
     private int maxHeight;
-    private int minHeight;
-    //private Boolean mAnimStarted = false;
 
     /**
      * Constructor
@@ -43,7 +41,6 @@ public class WrapContentHeightViewPager extends ViewPager {
                 context.obtainStyledAttributes(attrs, R.styleable.WrapContentHeightViewPager);
         try {
             maxHeight = styledAttrs.getDimensionPixelSize(R.styleable.WrapContentHeightViewPager_maxHeight, 0);
-            minHeight = styledAttrs.getDimensionPixelSize(R.styleable.WrapContentHeightViewPager_minHeight, -1);
         } finally {
             styledAttrs.recycle();
         }
@@ -52,8 +49,6 @@ public class WrapContentHeightViewPager extends ViewPager {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        //if (mAnimStarted || getAdapter() == null) return;
 
         int height = 0;
         for (int i = 0; i < getChildCount(); i++) {
@@ -82,6 +77,10 @@ public class WrapContentHeightViewPager extends ViewPager {
 
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    public void setMaxHeight(int maxHeight) {
+        this.maxHeight = maxHeight;
     }
 
 }

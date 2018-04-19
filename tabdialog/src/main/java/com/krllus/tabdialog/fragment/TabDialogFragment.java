@@ -2,10 +2,12 @@ package com.krllus.tabdialog.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.DimenRes;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.krllus.tabdialog.R;
 import com.krllus.tabdialog.core.BaseDialogBuilder;
 import com.krllus.tabdialog.core.BaseDialogFragment;
 import com.krllus.tabdialog.core.BaseViewPagerAdapter;
@@ -20,6 +22,7 @@ public class TabDialogFragment extends BaseDialogFragment {
 
     protected final static String ARG_TITLE = "title";
     protected final static String ARG_SUB_TITLE = "sub_title";
+    protected final static String ARG_CONTENT_HEIGHT_MAX_SIZE = "content_height_max_size";
     protected final static String ARG_POSITIVE_BUTTON = "positive_button";
     protected final static String ARG_NEGATIVE_BUTTON = "negative_button";
     protected final static String ARG_NEUTRAL_BUTTON = "neutral_button";
@@ -80,6 +83,13 @@ public class TabDialogFragment extends BaseDialogFragment {
             });
         }
 
+        int resId = getContentHeightMaxSize();
+        int contentHeightMaxSize;
+        if (resId == 0)
+            contentHeightMaxSize = getResources().getDimensionPixelSize(R.dimen.dialog_content_heigth_max_size);
+        else
+            contentHeightMaxSize = getResources().getDimensionPixelSize(getContentHeightMaxSize());
+        builder.setContentHeightMaxSize(contentHeightMaxSize);
 
         if (getViewPagerListener() != null && getViewPagerListener().getCount() > 0) {
             buildTab(builder);
@@ -114,6 +124,10 @@ public class TabDialogFragment extends BaseDialogFragment {
 
     protected CharSequence getNeutralButtonText() {
         return getArguments().getCharSequence(ARG_NEUTRAL_BUTTON);
+    }
+
+    protected int getContentHeightMaxSize() {
+        return getArguments().getInt(ARG_CONTENT_HEIGHT_MAX_SIZE);
     }
 
     /**
@@ -156,6 +170,7 @@ public class TabDialogFragment extends BaseDialogFragment {
         private CharSequence mPositiveButtonText;
         private CharSequence mNegativeButtonText;
         private CharSequence mNeutralButtonText;
+        private int mContentHeightMaxSize;
 
         TabDialogBuilder(Context context, FragmentManager fragmentManager, Class<? extends BaseDialogFragment> clazz, IViewPagerAdapterInterface listener) {
             super(context, fragmentManager, clazz, listener);
@@ -183,6 +198,11 @@ public class TabDialogFragment extends BaseDialogFragment {
 
         public TabDialogBuilder setSubTitle(CharSequence subTitle) {
             mSubTitle = subTitle;
+            return this;
+        }
+
+        public TabDialogBuilder setContentHeightMaxSize(@DimenRes int contentHeightMaxSize) {
+            mContentHeightMaxSize = contentHeightMaxSize;
             return this;
         }
 
@@ -224,6 +244,7 @@ public class TabDialogFragment extends BaseDialogFragment {
             args.putCharSequence(TabDialogFragment.ARG_POSITIVE_BUTTON, mPositiveButtonText);
             args.putCharSequence(TabDialogFragment.ARG_NEGATIVE_BUTTON, mNegativeButtonText);
             args.putCharSequence(TabDialogFragment.ARG_NEUTRAL_BUTTON, mNeutralButtonText);
+            args.putInt(TabDialogFragment.ARG_CONTENT_HEIGHT_MAX_SIZE, mContentHeightMaxSize);
 
             return args;
         }

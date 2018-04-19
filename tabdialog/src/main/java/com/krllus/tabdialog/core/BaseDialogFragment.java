@@ -204,7 +204,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
         private AdapterView.OnItemClickListener mOnItemClickListener;
 
-        private int contentHeight;
+        private int contentHeightMaxSize;
 
         Builder(Context context, LayoutInflater inflater, ViewGroup container) {
             this.mContext = context;
@@ -214,11 +214,6 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
         public LayoutInflater getLayoutInflater() {
             return mInflater;
-        }
-
-        public Builder setContentPaneHeight(int height) {
-            this.contentHeight = height;
-            return this;
         }
 
         public Builder setTitle(int titleId) {
@@ -238,6 +233,11 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
         public Builder setSubTitle(CharSequence subTitle) {
             this.mSubTitle = subTitle;
+            return this;
+        }
+
+        public Builder setContentHeightMaxSize(int height) {
+            this.contentHeightMaxSize = height;
             return this;
         }
 
@@ -316,7 +316,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
             TextView vSubTitle = content.findViewById(R.id.tdl_subtitle_text);
 
             viewPager = content.findViewById(R.id.view_pager);
-            //setContentHeight();
+            setContentHeight();
 
             final TabLayout vTabLayout = content.findViewById(R.id.tab_layout);
 
@@ -364,11 +364,11 @@ public abstract class BaseDialogFragment extends DialogFragment {
          * defining the height of a content layout
          */
         private void setContentHeight() {
-            if (contentHeight <= 0) {
-                viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) mContext.getResources().getDimension(R.dimen.dialog_max_height)));
-            } else {
-                viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, contentHeight));
+            if (contentHeightMaxSize > 0) {
+                viewPager.setMaxHeight(contentHeightMaxSize);
             }
+            //todo apply min height
+            //viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) mContext.getResources().getDimension(R.dimen.dialog_max_height)));
         }
 
         private boolean shouldStackButtons() {
