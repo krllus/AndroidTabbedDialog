@@ -8,13 +8,13 @@
     <dimen name="dialog_title_padding">24dp</dimen>
     <dimen name="dialog_title_padding_bottom">20dp</dimen>
     <dimen name="dialog_content_padding_bottom">24dp</dimen>
+    <dimen name="dialog_max_height">196dp</dimen>
 
     <dimen name="dialog_footer_height">56dp</dimen>
 
     <dimen name="header_elevation">4dp</dimen>
 
     <dimen name="my_tab_view_page_margin">@dimen/md_separator</dimen>
-    <dimen name="dialog_main_pane_height">196dp</dimen>
 
     <dimen name="card_min_button_width">36dp</dimen>
 

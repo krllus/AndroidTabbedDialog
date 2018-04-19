@@ -1,4 +1,4 @@
-package com.krllus.example;
+package com.krllus.example.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.krllus.example.R;
 
 
 public class TextFragment
@@ -41,7 +43,7 @@ public class TextFragment
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab_simple_text, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_text, container, false);
 
         txtSimpleText = rootView.findViewById(R.id.txt_simple_text);
 

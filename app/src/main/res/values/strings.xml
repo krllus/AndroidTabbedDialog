@@ -1,10 +1,20 @@
 <resources>
     <string name="app_name">Tabbed Dialogs</string>
 
-    <string name="subtitle">subtitle</string>
+    <string name="dialog_title">Dialog Title</string>
+    <string name="dialog_subtitle">Dialog Subtitle</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_cancel">Cancel</string>
 
-    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla suscipit nibh diam, in ultricies risus dignissim et. Aenean luctus, nisi et elementum volutpat, risus ex semper purus, quis porttitor ipsum metus eget urna. Vivamus in gravida velit, at interdum nisi. Pellentesque pretium porttitor nibh, eu vehicula ex lobortis sed. Duis interdum quam at aliquet tempor. Proin mollis cursus vestibulum. Pellentesque vitae arcu neque. Aliquam viverra nisl a fermentum laoreet. Maecenas iaculis sapien risus, vitae sodales lacus vulputate eget.</string>
+    <string name="news_title">STF: 4 ministros entendem que Maluf não tem direito a novo recurso; outros 3, sim; julgamento segue nesta quinta </string>
+    <string name="news_subtitle">Se ao final a maioria entender que cabe mais um recurso, deverá cair decisão do ano passado de Edson Fachin, que mandou prender o deputado. Com isso, Maluf poderá recorrer em liberdade.</string>
+    <string name="news_body">
+            O Supremo Tribunal Federal (STF) começou a analisar nesta quarta-feira (18) se concede ao deputado afastado Paulo Maluf (PP-SP), atualmente em prisão domiciliar, o direito de apresentar mais um recurso contra a condenação que sofreu no ano passado por lavagem de dinheiro.
+            Na sessão, quatro dos 11 ministros da Corte se manifestaram contra a possibilidade de mais um recurso: Edson Fachin, Luís Roberto Barroso, Rosa Weber e Luiz Fux. Outros três pelo direito de mais um recurso: Dias Toffoli, Alexandre de Moraes e Ricardo Lewandowski.
+            O julgamento será retomado nesta quinta (19) com os votos de Gilmar Mendes, Marco Aurélio Mello, Celso de Mello e Cármen Lúcia.
+            Condenado em maio, o deputado teve um primeiro recurso negado em outubro pela Primeira Turma do STF.
+            Em dezembro, o ministro Edson Fachin rejeitou um segundo recurso e determinou o cumprimento da pena.
+    </string>
+    <string name="news_footer">No caso de Maluf, não houve voto para inocentar o deputado, mas sim pela prescrição do caso, isto é, pela extinção da punição em razão da demora no processo. </string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

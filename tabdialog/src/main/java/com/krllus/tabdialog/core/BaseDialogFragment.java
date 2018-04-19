@@ -365,7 +365,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
          */
         private void setContentHeight() {
             if (contentHeight <= 0) {
-                viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) mContext.getResources().getDimension(R.dimen.dialog_main_pane_height)));
+                viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) mContext.getResources().getDimension(R.dimen.dialog_max_height)));
             } else {
                 viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, contentHeight));
             }

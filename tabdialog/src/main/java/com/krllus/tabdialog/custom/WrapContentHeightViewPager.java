@@ -1,9 +1,12 @@
 package com.krllus.tabdialog.custom;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.krllus.tabdialog.R;
 
 /**
  * Created by João Carlos on 4/12/18.
@@ -11,13 +14,17 @@ import android.view.View;
  */
 public class WrapContentHeightViewPager extends ViewPager {
 
+    private int maxHeight;
+    private int minHeight;
+    //private Boolean mAnimStarted = false;
+
     /**
      * Constructor
      *
      * @param context the context
      */
     public WrapContentHeightViewPager(Context context) {
-        super(context);
+        super(context, null);
     }
 
     /**
@@ -28,11 +35,25 @@ public class WrapContentHeightViewPager extends ViewPager {
      */
     public WrapContentHeightViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context, attrs);
+    }
+
+    private void init(Context context, AttributeSet attrs) {
+        TypedArray styledAttrs =
+                context.obtainStyledAttributes(attrs, R.styleable.WrapContentHeightViewPager);
+        try {
+            maxHeight = styledAttrs.getDimensionPixelSize(R.styleable.WrapContentHeightViewPager_maxHeight, 0);
+            minHeight = styledAttrs.getDimensionPixelSize(R.styleable.WrapContentHeightViewPager_minHeight, -1);
+        } finally {
+            styledAttrs.recycle();
+        }
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        //if (mAnimStarted || getAdapter() == null) return;
 
         int height = 0;
         for (int i = 0; i < getChildCount(); i++) {
@@ -43,7 +64,22 @@ public class WrapContentHeightViewPager extends ViewPager {
             if (h > height) height = h;
         }
 
-        heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
+        if (maxHeight > 0) {
+            int hMode = MeasureSpec.getMode(heightMeasureSpec);
+
+            switch (hMode) {
+                case MeasureSpec.AT_MOST:
+                    heightMeasureSpec = MeasureSpec.makeMeasureSpec(Math.min(height, maxHeight), MeasureSpec.AT_MOST);
+                    break;
+                case MeasureSpec.UNSPECIFIED:
+                    heightMeasureSpec = MeasureSpec.makeMeasureSpec(maxHeight, MeasureSpec.AT_MOST);
+                    break;
+                case MeasureSpec.EXACTLY:
+                    heightMeasureSpec = MeasureSpec.makeMeasureSpec(Math.min(height, maxHeight), MeasureSpec.EXACTLY);
+                    break;
+            }
+        }
+
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }

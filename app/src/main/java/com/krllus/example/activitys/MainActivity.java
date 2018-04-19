@@ -1,4 +1,4 @@
-package com.krllus.example;
+package com.krllus.example.activitys;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.krllus.example.R;
+import com.krllus.example.fragments.MainFragment;
+import com.krllus.example.fragments.NewsFragment;
 import com.krllus.tabdialog.fragment.PageFragment;
 import com.krllus.tabdialog.fragment.TabDialogFragment;
 import com.krllus.tabdialog.iface.ISimpleDialogCancelListener;
@@ -50,10 +53,10 @@ public class MainActivity
                                 return retrieveItems().size();
                             }
                         })
-                        .setTitle("Title")
-                        .setSubTitle(R.string.subtitle)
-                        .setPositiveButtonText("OK")
-                        .setNegativeButtonText("Cancel")
+                        .setTitle(R.string.dialog_title)
+                        .setSubTitle(R.string.dialog_subtitle)
+                        .setPositiveButtonText(R.string.btn_ok)
+                        .setNegativeButtonText(R.string.btn_cancel)
                         .useCustomTheme(R.style.Custom_AlertDialogTheme)
                         .setRequestCode(REQUEST_TABBED_DIALOG)
                         .show();
@@ -77,7 +80,7 @@ public class MainActivity
         if (items.isEmpty()) {
             items.add(new DialogTabItem(PageFragment.newInstance(), "Tab 01"));
             //items.add(new DialogTabItem(PageFragment.newInstance(), "Tab 02"));
-            items.add(new DialogTabItem(PageFragment.newInstance(), "Tab 03"));
+            items.add(new DialogTabItem(NewsFragment.newInstance(), "News"));
         }
 
         return items;

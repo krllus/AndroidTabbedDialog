@@ -1,4 +1,4 @@
-package com.krllus.example;
+package com.krllus.example.fragments;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -9,9 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.krllus.example.R;
 import com.krllus.tabdialog.fragment.PageFragment;
 import com.krllus.tabdialog.fragment.TabDialogFragment;
 import com.krllus.tabdialog.iface.ISimpleDialogListener;
@@ -103,39 +103,6 @@ public class MainFragment
         }
 
         return items;
-    }
-
-    private void selectedFirstTab(View container) {
-        // add view in container for first tab
-        View detailRootView = getLayoutInflater().inflate(R.layout.tab_one_layout, (ViewGroup) container);
-
-        TextView txtFirst = detailRootView.findViewById(R.id.textView);
-        TextView txtSecond = detailRootView.findViewById(R.id.textView2);
-        TextView txtThird = detailRootView.findViewById(R.id.textView3);
-
-        String strOne = "First Sentence";
-        String strTwo = "Seconde Line";
-        String strThird = "Last Sentence";
-
-        txtFirst.setText(strOne);
-        txtSecond.setText(strTwo);
-        txtThird.setText(strThird);
-    }
-
-    private void selectedSecondTab(View container) {
-        // add view in container for first tab
-        View detailRootView = getLayoutInflater().inflate(R.layout.tab_simple_text, (ViewGroup) container);
-        TextView textView = detailRootView.findViewById(R.id.textView);
-
-        textView.setText(R.string.lorem);
-    }
-
-    private void selectedThirdTab(View container) {
-        // add view in container for first tab
-        View detailRootView = getLayoutInflater().inflate(R.layout.tab_simple_text, (ViewGroup) container);
-        TextView textView = detailRootView.findViewById(R.id.textView);
-        String third = "shh!! we don't speak about 3!";
-        textView.setText(third);
     }
 
     @Override

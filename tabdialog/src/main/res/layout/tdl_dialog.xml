@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <include
@@ -12,6 +13,7 @@
 
     <com.krllus.tabdialog.custom.WrapContentHeightViewPager
         android:id="@+id/view_pager"
+        app:maxHeight="@dimen/dialog_max_height"
         android:layout_width="match_parent"
         android:layout_height="0dp" />
 
