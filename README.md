@@ -20,7 +20,7 @@ Then add Tabbed dialog to your Module’s dependencies
 
 ```
 dependencies {
-    implements 'com.github.krllus:AndroidTabbedDialog:v1.3.0'
+    implements 'com.github.krllus:AndroidTabbedDialog:v1.3.3'
 }
 ```
 
@@ -47,12 +47,14 @@ dependencies {
                 return retrieveItems().size();
             }
         })
-        .setTitle("Title")
-        .setSubTitle("SubTitle")
-        .setPositiveButtonText("Ok")
+        .setTitle(R.string.dialog_title)
+        .setContentHeightMaxSize(R.dimen.content_max_height)
+        .setSubTitle(R.string.dialog_subtitle)
+        .showBottomDivider()
+        .setPositiveButtonText("OK")
         .setNegativeButtonText("Cancel")
-        .setNeutralButtonText("Hello")
-        .setRequestCode(REQUEST_SIMPLE_DIALOG)
+        .useCustomTheme(R.style.Custom_AlertDialogTheme)
+        .setRequestCode(REQUEST_CODE)
         .show();
 
     private ArrayList<DialogTabItem> retrieveItems() {

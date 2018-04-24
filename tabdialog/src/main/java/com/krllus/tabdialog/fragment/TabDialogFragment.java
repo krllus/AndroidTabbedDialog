@@ -26,6 +26,8 @@ public class TabDialogFragment extends BaseDialogFragment {
     protected final static String ARG_POSITIVE_BUTTON = "positive_button";
     protected final static String ARG_NEGATIVE_BUTTON = "negative_button";
     protected final static String ARG_NEUTRAL_BUTTON = "neutral_button";
+    protected final static String ARG_SHOW_BOTTOM_DIVIDER = "use_bottom_divider";
+
 
     public static TabDialogBuilder createBuilder(Context context, FragmentManager fragmentManager) {
         return new TabDialogBuilder(context, fragmentManager, TabDialogFragment.class, null);
@@ -46,6 +48,10 @@ public class TabDialogFragment extends BaseDialogFragment {
         if (!TextUtils.isEmpty(subTitle)) {
             builder.setSubTitle(subTitle);
         }
+
+        final boolean showBottomDivider = getShowBottomDivider();
+        if (showBottomDivider)
+            builder.showBottomDivider();
 
         final CharSequence positiveButtonText = getPositiveButtonText();
         if (!TextUtils.isEmpty(positiveButtonText)) {
@@ -114,6 +120,10 @@ public class TabDialogFragment extends BaseDialogFragment {
         return getArguments().getCharSequence(ARG_SUB_TITLE);
     }
 
+    protected Boolean getShowBottomDivider() {
+        return getArguments().getBoolean(ARG_SHOW_BOTTOM_DIVIDER, false);
+    }
+
     protected CharSequence getPositiveButtonText() {
         return getArguments().getCharSequence(ARG_POSITIVE_BUTTON);
     }
@@ -167,6 +177,7 @@ public class TabDialogFragment extends BaseDialogFragment {
     public static class TabDialogBuilder extends BaseDialogBuilder {
         private CharSequence mTitle;
         private CharSequence mSubTitle;
+        private boolean mShowBottomDivider = false;
         private CharSequence mPositiveButtonText;
         private CharSequence mNegativeButtonText;
         private CharSequence mNeutralButtonText;
@@ -206,6 +217,11 @@ public class TabDialogFragment extends BaseDialogFragment {
             return this;
         }
 
+        public TabDialogBuilder showBottomDivider() {
+            mShowBottomDivider = true;
+            return this;
+        }
+
         public TabDialogBuilder setPositiveButtonText(int textResourceId) {
             mPositiveButtonText = mContext.getString(textResourceId);
             return this;
@@ -241,6 +257,7 @@ public class TabDialogFragment extends BaseDialogFragment {
             Bundle args = new Bundle();
             args.putCharSequence(TabDialogFragment.ARG_TITLE, mTitle);
             args.putCharSequence(TabDialogFragment.ARG_SUB_TITLE, mSubTitle);
+            args.putBoolean(TabDialogFragment.ARG_SHOW_BOTTOM_DIVIDER, mShowBottomDivider);
             args.putCharSequence(TabDialogFragment.ARG_POSITIVE_BUTTON, mPositiveButtonText);
             args.putCharSequence(TabDialogFragment.ARG_NEGATIVE_BUTTON, mNegativeButtonText);
             args.putCharSequence(TabDialogFragment.ARG_NEUTRAL_BUTTON, mNeutralButtonText);

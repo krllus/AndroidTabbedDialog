@@ -85,6 +85,7 @@ public class MainFragment
                 })
                 .setTitle("Fragment Title")
                 .setSubTitle("Using fragments is really cool")
+                .showBottomDivider()
                 .setPositiveButtonText("OK")
                 .setNegativeButtonText("Cancel")
                 .setTargetFragment(this, REQUEST_CODE_FRAGMENT)

@@ -10,6 +10,7 @@
 
     <!-- ALERT DIALOG -->
     <style name="Custom.AlertDialogTheme" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
         <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
@@ -19,13 +20,20 @@
     <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:background">@drawable/button_red</item>
         <item name="android:textColor">@color/colorPrimaryText</item>
-        <item name="android:minHeight">36dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:minHeight">@dimen/dialog_button_min_height</item>
+        <item name="android:minWidth">@dimen/dialog_button_min_width</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
     </style>
 
     <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:background">@drawable/button_green</item>
         <item name="android:textColor">@color/colorPrimaryText</item>
-        <item name="android:minHeight">36dp</item>
+        <item name="android:minHeight">@dimen/dialog_button_min_height</item>
+        <item name="android:minWidth">@dimen/dialog_button_min_width</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
     </style>
 
 </resources>

@@ -10,7 +10,7 @@
     <dimen name="dialog_content_padding_bottom">24dp</dimen>
     <dimen name="dialog_content_heigth_max_size">196dp</dimen>
 
-    <dimen name="dialog_footer_height">56dp</dimen>
+    <dimen name="dialog_footer_min_height">54dip</dimen>
 
     <dimen name="header_elevation">4dp</dimen>
 

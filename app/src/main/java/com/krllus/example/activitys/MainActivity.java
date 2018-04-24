@@ -56,6 +56,7 @@ public class MainActivity
                         .setTitle(R.string.dialog_title)
                         .setContentHeightMaxSize(R.dimen.content_max_height)
                         .setSubTitle(R.string.dialog_subtitle)
+                        .showBottomDivider()
                         .setPositiveButtonText(R.string.btn_ok)
                         .setNegativeButtonText(R.string.btn_cancel)
                         .useCustomTheme(R.style.Custom_AlertDialogTheme)

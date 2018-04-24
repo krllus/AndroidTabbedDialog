@@ -188,6 +188,8 @@ public abstract class BaseDialogFragment extends DialogFragment {
         private CharSequence mNegativeButtonText;
         private CharSequence mNeutralButtonText;
 
+        private boolean mShowBottomDivider = false;
+
         private View.OnClickListener mNegativeButtonListener;
         private View.OnClickListener mPositiveButtonListener;
         private View.OnClickListener mNeutralButtonListener;
@@ -277,6 +279,11 @@ public abstract class BaseDialogFragment extends DialogFragment {
             return this;
         }
 
+        public Builder showBottomDivider() {
+            mShowBottomDivider = true;
+            return this;
+        }
+
         public Builder setItems(ListAdapter listAdapter, int[] checkedItemIds, int choiceMode, final AdapterView.OnItemClickListener listener) {
             mListAdapter = listAdapter;
             mListCheckedItemMultipleIds = checkedItemIds;
@@ -319,6 +326,9 @@ public abstract class BaseDialogFragment extends DialogFragment {
             setContentHeight();
 
             final TabLayout vTabLayout = content.findViewById(R.id.tab_layout);
+
+            View vBottomDivider = content.findViewById(R.id.tdl_bottom_divider);
+            vBottomDivider.setVisibility(mShowBottomDivider ? View.VISIBLE : View.GONE);
 
             Button vPositiveButton = content.findViewById(R.id.tdl_button_positive);
             Button vNegativeButton = content.findViewById(R.id.tdl_button_negative);
