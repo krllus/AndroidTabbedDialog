@@ -20,7 +20,7 @@ Then add Tabbed dialog to your Module’s dependencies
 
 ```
 dependencies {
-    implements 'com.github.krllus:AndroidTabbedDialog:v1.4.0'
+    implements 'com.github.krllus:AndroidTabbedDialog:v1.4.1'
 }
 ```
 
@@ -72,8 +72,6 @@ dependencies {
 ### How to react on button press in your Activity/Fragment:
 Simply implement interface `ISimpleDialogListener` in your Activity/Fragment. Listener's callbacks have `requestCode` parameter - you can use it if you have more dialogs in one Activity/Fragment.
 
-##Proguard
--keep public class com.krllus.tabdialog.model.*
 
 ## License
 Copyright (c) 2018 João Carlos
