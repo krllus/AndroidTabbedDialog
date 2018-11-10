@@ -1,5 +1,6 @@
 package com.krllus.tabdialog.core;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -39,7 +40,7 @@ public class BaseViewPagerAdapter
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         // hack. we don't want to destroy our fragments and re-initiate them after
     }
 }
