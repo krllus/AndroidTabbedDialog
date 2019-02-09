@@ -20,7 +20,7 @@ Then add Tabbed dialog to your Module’s dependencies
 
 ```
 dependencies {
-    implements 'com.github.krllus:AndroidTabbedDialog:v1.4.2'
+    implementation 'com.github.krllus:AndroidTabbedDialog:1.4.2'
 }
 ```
 
