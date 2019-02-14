@@ -98,9 +98,13 @@ public class MainFragment
             items = new ArrayList<>();
 
         if (items.isEmpty()) {
-            items.add(new DialogTabItem(PageFragment.newInstance(), "Uno"));
-            items.add(new DialogTabItem(PageFragment.newInstance(), "Dos"));
-            items.add(new DialogTabItem(TextFragment.newInstance("Shh, we don't talk about tres"), "Cuatro"));
+            PageFragment fragmentUno = PageFragment.newInstance();
+            PageFragment fragmentTwo = PageFragment.newInstance();
+            TextFragment fragmentCuatro = TextFragment.newInstance("Shh, we don't talk about tres");
+
+            items.add(new DialogTabItem(fragmentUno, "Uno"));
+            items.add(new DialogTabItem(fragmentTwo, "Dos"));
+            items.add(new DialogTabItem(fragmentCuatro, "Cuatro"));
         }
 
         return items;
@@ -112,7 +116,7 @@ public class MainFragment
             case REQUEST_CODE_FRAGMENT:
                 Toast.makeText(getContext(), "Fragment Negative Clicked", Toast.LENGTH_SHORT).show();
                 if (dialog != null && dialog.isShowing())
-                    dialog.dismiss();
+                    //dialog.dismiss();
                 break;
         }
     }
@@ -123,7 +127,7 @@ public class MainFragment
             case REQUEST_CODE_FRAGMENT:
                 Toast.makeText(getContext(), "Fragment Neutral Clicked", Toast.LENGTH_SHORT).show();
                 if (dialog != null && dialog.isShowing())
-                    dialog.dismiss();
+                    //dialog.dismiss();
                 break;
         }
     }
@@ -134,7 +138,7 @@ public class MainFragment
             case REQUEST_CODE_FRAGMENT:
                 Toast.makeText(getContext(), "Fragment Positive Clicked", Toast.LENGTH_SHORT).show();
                 if (dialog != null && dialog.isShowing())
-                    dialog.dismiss();
+                    //dialog.dismiss();
                 break;
         }
     }
